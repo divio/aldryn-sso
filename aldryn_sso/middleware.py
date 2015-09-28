@@ -75,4 +75,9 @@ class AccessControlMiddleware(object):
         if settings.SHARING_VIEW_ONLY_SECRET_TOKEN == token:
             request.session[settings.SHARING_VIEW_ONLY_TOKEN_KEY_NAME] = token
             return HttpResponseRedirect('/')
-        return TemplateResponse(request, 'aldryn_sso/login_screen.html')
+
+        return TemplateResponse(
+            request,
+            template='aldryn_sso/login_screen.html',
+            context={'CMSCLOUD_STATIC_URL': settings.CMSCLOUD_STATIC_URL}
+        )
