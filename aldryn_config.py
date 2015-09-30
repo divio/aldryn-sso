@@ -18,6 +18,10 @@ class Form(forms.BaseForm):
 
         env = partial(djsenv, settings=settings)
 
+        if not env('SSO_DSN'):
+            # there is no SSO_DSN set. No point in configuring anything else.
+            return settings
+
         settings['ALDRYN_SSO_HIDE_USER_MANAGEMENT'] = data['hide_user_management']
         settings['ADDON_URLS'].append('aldryn_sso.urls')
         settings['INSTALLED_APPS'].append('aldryn_sso')
