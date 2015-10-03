@@ -18,6 +18,9 @@ class Form(forms.BaseForm):
 
         env = partial(djsenv, settings=settings)
 
+        if env('STAGE') == 'local':
+            settings['LOCAL_DEVELOPMENT'] = True
+
         if not env('SSO_DSN'):
             # there is no SSO_DSN set. No point in configuring anything else.
             return settings
