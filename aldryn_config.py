@@ -21,14 +21,14 @@ class Form(forms.BaseForm):
         if env('STAGE') == 'local':
             settings['LOCAL_DEVELOPMENT'] = True
 
-        if not env('SSO_DSN'):
+        if env('SSO_DSN') or env('STAGE') == 'local':
+            settings['ALDRYN_SSO_HIDE_USER_MANAGEMENT'] = data['hide_user_management']
+            settings['ADDON_URLS'].append('aldryn_sso.urls')
+            settings['INSTALLED_APPS'].append('aldryn_sso')
+            settings['CMSCLOUD_STATIC_URL'] = env('CMSCLOUD_STATIC_URL')
+        else:
             # there is no SSO_DSN set. No point in configuring anything else.
             return settings
-
-        settings['ALDRYN_SSO_HIDE_USER_MANAGEMENT'] = data['hide_user_management']
-        settings['ADDON_URLS'].append('aldryn_sso.urls')
-        settings['INSTALLED_APPS'].append('aldryn_sso')
-        settings['CMSCLOUD_STATIC_URL'] = env('CMSCLOUD_STATIC_URL')
 
         # Expire user session every day because:
         # User can change its data on Login's server.
