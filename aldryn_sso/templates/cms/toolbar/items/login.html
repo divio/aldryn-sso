@@ -3,9 +3,17 @@
 {% url 'aldryn_local_create_user' as create_user_url %}
 {% url 'simple-sso-login' as sso_login_url %}
 
+{% if sso_login_url %}
+    <div class="cms_toolbar-item cms_toolbar-item-buttons">
+        <a href="{{ sso_login_url }}?next={{ request.path }}" class="cms_btn cms_btn-active cms_btn-action">Login</a>
+    </div>
+{% endif %}
+
+{% if local_login_url %}
 <div class="cms_toolbar-item cms_toolbar-item-buttons">
-    <a href="{% firstof local_login_url sso_login_url %}?next={{ request.path }}" class="cms_btn cms_btn-active cms_btn-action">Login</a>
+    <a href="{{ local_login_url }}?next={{ request.path }}" class="cms_btn cms_btn-active cms_btn-action">Login As</a>
 </div>
+{% endif %}
 
 {% if create_user_url %}
     <div class="cms_toolbar-item cms_toolbar-item-buttons">
