@@ -1,0 +1,29 @@
+{% extends "aldryn_sso/base.html" %}
+
+{% block page_title %}Your site is ready{% endblock page_title %}
+
+{% block content %}
+    <div class="col-xs-24 col-sm-offset-12 col-sm-12">
+        <div  class="form-group">
+            {% if request.site.name %}<h2 class="project-title">{{ request.site.name }}</h2>{% endif %}
+            <h3 class="page-status">Login</h3>
+        </div>
+        <form action="." method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% with field=form.user %}
+            <div role="form" class="form-group">
+                <label for="{{ field.id_for_label }}" class="control-label sr-only">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {% endwith %}
+            <input type="hidden" name="next" value="{{ next }}" />
+            <input class="btn btn-marketing with-brand-icon" type="submit" value="Sign in">
+        </form>
+    </div>
+{% endblock content %}

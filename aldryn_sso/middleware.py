@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.utils.translation import get_language_from_path
 
+
 logger = logging.getLogger('aldryn-sso')
 
 
@@ -21,6 +22,8 @@ class AccessControlMiddleware(object):
     # /en/some-path/ -> language prefixed
     # reverse_lazy('login') -> lazy url
     LOGIN_WHITE_LIST = settings.ALDRYN_SSO_LOGIN_WHITE_LIST
+
+    login_template = 'aldryn_sso/login_screen.html'
 
     def strip_language(self, path):
         language_prefix = get_language_from_path(path)
@@ -75,9 +78,12 @@ class AccessControlMiddleware(object):
         if settings.SHARING_VIEW_ONLY_SECRET_TOKEN == token:
             request.session[settings.SHARING_VIEW_ONLY_TOKEN_KEY_NAME] = token
             return HttpResponseRedirect('/')
+        return self.render_login_page(request)
 
-        return TemplateResponse(
+    def render_login_page(self, request):
+        response = TemplateResponse(
             request,
-            template='aldryn_sso/login_screen.html',
-            context={'CMSCLOUD_STATIC_URL': settings.CMSCLOUD_STATIC_URL}
+            template=self.login_template,
+            context={'CMSCLOUD_STATIC_URL': settings.CMSCLOUD_STATIC_URL},
         )
+        return response

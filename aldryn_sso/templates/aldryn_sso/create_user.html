@@ -1,0 +1,44 @@
+{% extends "aldryn_sso/base.html" %}
+
+{% block page_title %}Create user{% endblock page_title %}
+
+{% block content %}
+    <div class="col-xs-24 col-sm-offset-12 col-sm-12">
+        <div  class="form-group">
+            {% if request.site.name %}<h2 class="project-title">{{ request.site.name }}</h2>{% endif %}
+            <h3 class="page-status">Create user</h3>
+        </div>
+        <form action="." method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% with field=form.username %}
+            <div class="form-group form-required{% if field.errors %} has-error{% endif %}">
+                <label for="{{ field.id_for_label }}">Username<abbr title="Required field">*</abbr></label>
+                {{ field }}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {% endwith %}
+            {% with field=form.is_superuser %}
+            <div class="checkbox {% if field.errors %} has-error{% endif %}">
+                <label for="{{ field.auto_id }}">
+                    {% block form_field %}
+                        {{ field }}
+                    {% endblock form_field %}
+                    {{ field.label }}
+                </label>
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {% endwith %}
+            <input type="hidden" name="next" value="{{ next }}" />
+            <input class="btn btn-marketing with-brand-icon" type="submit" value="Submit">
+        </form>
+    </div>
+{% endblock content %}
