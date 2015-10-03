@@ -37,7 +37,7 @@ class Form(forms.BaseForm):
             settings['ALDRYN_SSO_HIDE_USER_MANAGEMENT'] = data['hide_user_management']
             settings['ADDON_URLS'].append('aldryn_sso.urls')
             settings['INSTALLED_APPS'].append('aldryn_sso')
-            settings['CMSCLOUD_STATIC_URL'] = env('CMSCLOUD_STATIC_URL')
+            settings['CMSCLOUD_STATIC_URL'] = env('CMSCLOUD_STATIC_URL', 'static.aldryn.com')
         else:
             # there is no SSO_DSN set and is not local dev.
             # No point in configuring anything else.
