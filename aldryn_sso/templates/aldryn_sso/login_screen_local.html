@@ -13,8 +13,18 @@
             {{ form.non_field_errors }}
             {% with field=form.user %}
             <div role="form" class="form-group">
-                <label for="{{ field.id_for_label }}" class="control-label sr-only">{{ field.label }}</label>
-                {{ field }}
+                <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}</label>
+                <select class="select-sm form-control">
+                    {% for value, name in form.user.field.choices %}
+                        {% if forloop.counter0 != 1 %}
+                            <option value="{{ value }}">{{ name }}</option>
+                        {%  else %}
+                            <option value="{{ value }}" selected>{{ name }}</option>
+                        {%  endif %}
+                    {% endfor %}
+                </select>
+                <div class="spacer"></div>
+                <a href="/create-user">Add user</a>
                 {% if field.errors %}
                     {% for error in field.errors %}
                         <span class="text-danger">{{ error }}</span>
