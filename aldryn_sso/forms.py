@@ -15,6 +15,7 @@ class CreateUserForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(CreateUserForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['username'].widget.attrs['placeholder'] = 'Username'
         del self.fields['password1']
         del self.fields['password2']
 

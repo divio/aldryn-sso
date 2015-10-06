@@ -16,6 +16,7 @@
                 <label for="{{ field.id_for_label }}">Username<abbr title="Required field">*</abbr></label>
                 {{ field }}
                 {% if field.errors %}
+                    <div class="spacer"></div>
                     {% for error in field.errors %}
                         <span class="text-danger">{{ error }}</span>
                     {% endfor %}
