@@ -13,7 +13,7 @@
             {{ form.non_field_errors }}
             {% with field=form.user %}
             <div role="form" class="form-group">
-                <a href="/create-user" class="pull-right link-marketing">Add user</a>
+                <a href="{% url 'aldryn_local_create_user' %}" class="pull-right link-marketing">Add user</a>
                 <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}</label>
                 <select class="select-sm form-control" name="user">
                     {% for value, name in form.user.field.choices %}
