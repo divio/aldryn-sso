@@ -18,8 +18,9 @@ class Form(forms.BaseForm):
 
         env = partial(djsenv, settings=settings)
 
-        is_local_dev = env('STAGE') == 'local'
+        settings['LOGIN_REDIRECT_URL'] = '/'
 
+        is_local_dev = env('STAGE') == 'local'
         if is_local_dev:
             settings['LOCAL_DEVELOPMENT'] = True
 
