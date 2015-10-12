@@ -37,7 +37,10 @@ class Form(forms.BaseForm):
         if env('SSO_DSN') or is_local_dev:
             settings['ALDRYN_SSO_HIDE_USER_MANAGEMENT'] = data['hide_user_management']
             settings['ADDON_URLS'].append('aldryn_sso.urls')
-            settings['INSTALLED_APPS'].append('aldryn_sso')
+            settings['INSTALLED_APPS'].insert(
+                settings['INSTALLED_APPS'].index('django.contrib.admin'),
+                'aldryn_sso'
+            )
             settings['CMSCLOUD_STATIC_URL'] = env('CMSCLOUD_STATIC_URL', 'https://static.aldryn.com/')
         else:
             # there is no SSO_DSN set and is not local dev.
