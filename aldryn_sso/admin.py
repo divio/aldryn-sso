@@ -4,6 +4,6 @@ from django.contrib import admin
 from django.contrib.auth.models import User, Group
 
 
-if settings.ALDRYN_SSO_HIDE_USER_MANAGEMENT:
+if getattr(settings, 'ALDRYN_SSO_HIDE_USER_MANAGEMENT', False):
     admin.site.unregister(User)
     admin.site.unregister(Group)
