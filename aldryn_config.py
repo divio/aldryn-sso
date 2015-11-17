@@ -31,7 +31,7 @@ class Form(forms.BaseForm):
             # - security risk, leaking user data to unauthorized websites,
             # - it would require some periodic tasks (celery?),
             # - stage websites are being paused during which the sync wouldn't work
-            settings['CLOUD_USER_SESSION_EXPIRATION'] =  24 * 60 * 60  # 24h = 1day
+            settings['CLOUD_USER_SESSION_EXPIRATION'] = 24 * 60 * 60  # 24h = 1day
             settings['SSO_DSN'] = env('SSO_DSN')
 
         if env('SSO_DSN') or is_local_dev:
