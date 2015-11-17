@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.0.6 (2015-11-17)
+------------------
+
+* Adds appropriate classes to the template so it looks correctly in django CMS 3.2+
+
 1.0.5 (2015-11-16)
 ------------------
 
