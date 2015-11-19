@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.0.7 (2015-11-19)
+------------------
+
+* Fix typo in class name of a toolbar item so it looks corerctly in django CMS 3.2+
+
+
 1.0.6 (2015-11-17)
 ------------------
 
