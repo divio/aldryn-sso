@@ -1,11 +1,15 @@
 CHANGELOG
 =========
 
+1.0.8 (2015-11-23)
+------------------
+
+* Fix IntegrityError triggered by the SSO client.
+
 1.0.7 (2015-11-19)
 ------------------
 
-* Fix typo in class name of a toolbar item so it looks corerctly in django CMS 3.2+
-
+* Fix typo in class name of a toolbar item so it looks correctly in django CMS 3.2+
 
 1.0.6 (2015-11-17)
 ------------------
