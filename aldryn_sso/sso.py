@@ -41,11 +41,16 @@ class CloudUserClient(Client):
 
         cloud_id = extra_data['cloud_id']
 
+        # It's important that username is removed
+        # from the user_data dictionary because the dictionary
+        # is used to update the existing user object.
+        username = user_data.pop('username')
+
         try:
             account = AldrynCloudUser.objects.get(cloud_id=cloud_id)
         except AldrynCloudUser.DoesNotExist:
             user = self._create_user(
-                username=user_data.pop('username'),
+                username=username,
                 email=user_data.pop('email'),
             )
 
