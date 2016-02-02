@@ -16,7 +16,7 @@
 {% url 'simple-sso-login' as sso_login_url %}
 
 <div id="content-main" style="text-align: center">
-    <a href="{{ local_login_url|default:sso_login_url }}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">
+    <a href="{{ local_login_url|default:sso_login_url }}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}">
         {% trans "Login" %}
     </a>
 </div>
