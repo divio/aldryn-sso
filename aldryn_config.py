@@ -8,7 +8,7 @@ class Form(forms.BaseForm):
     hide_user_management = forms.CheckboxField(
         'Hide user management',
         required=False,
-        initial='true'
+        initial='false'
     )
 
     def to_settings(self, data, settings):
