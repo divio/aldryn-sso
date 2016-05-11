@@ -1,6 +1,26 @@
 CHANGELOG
 =========
 
+
+1.0.12 (2016-05-11)
+------------------
+
+* Fix an error in the redirect middleware preventing infinite redirects if ``SHARING_VIEW_ONLY_TOKEN_KEY_NAME`` is not set
+* Fix a bug when using Python 3
+
+
+1.0.11 (2016-04-29)
+------------------
+
+* Change default of ``hide_user_management`` to ``False``
+
+
+1.0.10 (2016-04-22)
+------------------
+
+* Update login screen text
+
+
 1.0.9 (2016-02-02)
 ------------------
 
