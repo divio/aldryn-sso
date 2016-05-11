@@ -4,6 +4,7 @@ Access Control Middleware
 """
 import logging
 import re
+import sys
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -12,6 +13,11 @@ from django.utils.translation import get_language_from_path
 
 
 logger = logging.getLogger('aldryn-sso')
+
+if sys.version_info < (3,):
+    cast_to_str = unicode
+else:
+    cast_to_str = str
 
 
 class AccessControlMiddleware(object):
@@ -47,7 +53,7 @@ class AccessControlMiddleware(object):
         path_without_prefix = self.strip_language(request.path)
 
         for exclusive_path in self.LOGIN_WHITE_LIST:
-            exclusive_path = unicode(exclusive_path)
+            exclusive_path = cast_to_str(exclusive_path)
             exclusive_path_without_prefix = self.strip_language(exclusive_path)
 
             if exclusive_path == path:
@@ -73,11 +79,12 @@ class AccessControlMiddleware(object):
             return None
 
         # check if the user is using the "view only sharing url"
-        token = request.GET.get(settings.SHARING_VIEW_ONLY_TOKEN_KEY_NAME, None)
-
-        if settings.SHARING_VIEW_ONLY_SECRET_TOKEN == token:
-            request.session[settings.SHARING_VIEW_ONLY_TOKEN_KEY_NAME] = token
-            return HttpResponseRedirect('/')
+        secret_token = settings.SHARING_VIEW_ONLY_SECRET_TOKEN
+        if secret_token:
+            token = request.GET.get(settings.SHARING_VIEW_ONLY_TOKEN_KEY_NAME, None)
+            if secret_token == token:
+                request.session[settings.SHARING_VIEW_ONLY_TOKEN_KEY_NAME] = token
+                return HttpResponseRedirect('/')
         return self.render_login_page(request)
 
     def render_login_page(self, request):
