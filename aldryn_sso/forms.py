@@ -10,7 +10,7 @@ User = get_user_model()
 
 class CreateUserForm(UserCreationForm):
 
-    is_superuser = forms.BooleanField(initial=False, required=False)
+    is_superuser = forms.BooleanField(initial=True, required=False)
 
     def __init__(self, *args, **kwargs):
         super(CreateUserForm, self).__init__(*args, **kwargs)
