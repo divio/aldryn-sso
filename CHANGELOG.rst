@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.0.13 (2016-05-24)
+------------------
+
+* When creating a localdev user, the superuser box is now checked by default
+
 
 1.0.12 (2016-05-11)
 ------------------
