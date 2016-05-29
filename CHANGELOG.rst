@@ -1,27 +1,32 @@
 CHANGELOG
 =========
 
+1.0.14 (2016-05-29)
+-------------------
+
+* Fix faulty default for "hide user management" setting
+
 1.0.13 (2016-05-24)
-------------------
+-------------------
 
 * When creating a localdev user, the superuser box is now checked by default
 
 
 1.0.12 (2016-05-11)
-------------------
+-------------------
 
 * Fix an error in the redirect middleware preventing infinite redirects if ``SHARING_VIEW_ONLY_TOKEN_KEY_NAME`` is not set
 * Fix a bug when using Python 3
 
 
 1.0.11 (2016-04-29)
-------------------
+-------------------
 
 * Change default of ``hide_user_management`` to ``False``
 
 
 1.0.10 (2016-04-22)
-------------------
+-------------------
 
 * Update login screen text
 
