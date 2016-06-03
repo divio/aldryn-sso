@@ -3,17 +3,47 @@
 <form action="{% url 'aldryn_sso_login' %}" method="post" role="form">
     {% csrf_token %}
     {{ form.non_field_errors }}
-    <div class="form-row">
-        {{ form.username.errors }}
-        {{ form.username.label_tag }} {{ form.username }}
+    <div  class="form-group">
+        <h2>{% trans "Login" %}</h2>
     </div>
-    <div class="form-row">
-        {{ form.password.errors }}
-        {{ form.password.label_tag }} {{ form.password }}
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <span class="icon icon-fw icon-user"></span>
+            </span>
+            <div class="form-group">
+                <label class="sr-only" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+                <input class="form-control" id="{{ form.username.id_for_label }}" maxlength="254" name="{{ form.username.id_for_label }}" placeholder="{{ form.username.label }}" required="required" type="text">
+            </div>
+        </div>
+        <div class="help-text">
+            <div class="spacer-xs"></div>
+            {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <span class="icon icon-fw icon-lock"></span>
+            </span>
+            <div class="form-group">
+                <label class="sr-only" for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+                <input class="form-control" id="{{ form.password.id_for_label }}" maxlength="254" name="{{ form.password.id_for_label }}" placeholder="{{ form.password.label }}" required="required" type="password">
+            </div>
+        </div>
+        <div class="spacer-xs"></div>
+        <div class="help-text">
+            {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
     <input type="hidden" name="next" value="{{ next }}" />
-    </div>
-
-    <button type="submit" class="btn btn-marketing btn-block btn-lg">
-        {% trans "Sign in" %}
-    </button>
+    <input class="btn btn-default btn-block sso-button" type="submit" value="{% trans 'Sign in' %}">
 </form>

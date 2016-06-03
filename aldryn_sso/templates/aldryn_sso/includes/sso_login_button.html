@@ -1,8 +1,8 @@
 {% load i18n admin_static %}
 {% url 'simple-sso-login' as sso_login_url %}
 <a
-    class="btn btn-marketing with-brand-icon"
+    class="btn btn-marketing with-brand-icon btn-block"
     href="{{ sso_login_url }}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}">
     <span aria-hidden="true" class="aldryn-icon"></span>
-    Sign in with aldryn
+    {% trans "Sign in with Aldryn" %}
 </a>

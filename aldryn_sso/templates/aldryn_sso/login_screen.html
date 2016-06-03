@@ -4,34 +4,41 @@
 {% block page_title %}{% if request.site.name %}{{ request.site.name }} {% endif %}Sign in{% endblock page_title %}
 
 {% block content %}
-    <div style="margin-top: 25px;" class="marketing-heading text-center">
-        <h1>Sign in to {% if request.site.name %}{{ request.site.name }}{% else %}your website{% endif %}</h1>
-    </div>
-    {% if aldryn_localdev_enable %}
-        {% with form=aldryn_localdev_login_as_form %}
-            {% include 'aldryn_sso/includes/local_development_login_form.html' %}
-        {% endwith %}
-    {% endif %}
-    {% if aldryn_sso_enable_standard_login or aldryn_sso_enable %}
-        <div class="col-md-12 col-md-offset-6 col-sm-16 col-sm-offset-4">
-            <div class="panel panel-default">
-                <div class="panel-body" >
-                    {% if aldryn_sso_enable_standard_login %}
-                        {% include 'aldryn_sso/includes/standard_login_form.html' %}
-                    {% endif %}
-                    {% if aldryn_sso_enable_standard_login and aldryn_sso_enable %}
-                        <div class="text-center striketrough" style="padding-top: 15px; padding-bottom: 15px;">{% trans "or" %}</div>
-                    {% endif %}
-                    {% if aldryn_sso_enable %}
-                        <div class="text-center">
-                            {% include 'aldryn_sso/includes/sso_login_button.html' %}
+    <div class="container">
+        <div class="marketing-heading text-center">
+            <h1>Sign in to {% if request.site.name %}{{ request.site.name }}{% else %}your website{% endif %}</h1>
+        </div>
+        <div class="spacer-lg"></div>
+        <div class="row">
+            <div class="col-md-12 col-md-offset-6 col-sm-16 col-sm-offset-4">
+                {% if aldryn_localdev_enable %}
+                    {% with form=aldryn_localdev_login_as_form %}
+                        {% include 'aldryn_sso/includes/local_development_login_form.html' %}
+                    {% endwith %}
+                {% endif %}
+                {% if aldryn_sso_enable_standard_login or aldryn_sso_enable %}
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            {% if aldryn_sso_enable_standard_login %}
+                                {% include 'aldryn_sso/includes/standard_login_form.html' %}
+                            {% endif %}
+                            {% if aldryn_sso_enable_standard_login and aldryn_sso_enable %}
+                                <div class="strikethrough-block">
+                                    <hr>
+                                    <div class="text-center">
+                                        <span class="line-text">{% trans "OR" %}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if aldryn_sso_enable %}
+                                <div class="spacer"></div>
+                                {% include 'aldryn_sso/includes/sso_login_button.html' %}
+                            {% endif %}
                         </div>
-                    {% endif %}
-                </div>
+                        <div class="spacer"></div>
+                    </div>
+                {% endif %}
             </div>
         </div>
-    {% endif %}
-
-
-
+    </div>
 {% endblock %}

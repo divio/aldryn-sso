@@ -1,21 +1,24 @@
 {% extends "aldryn_sso/base.html" %}
+{% load i18n %}
 
 {% block page_title %}Create user{% endblock page_title %}
 
 {% block content %}
+    <div class="marketing-heading text-center">
+        <h1>{% trans "Create user" %}</h1>
+    </div>
     <div class="col-xs-24 col-sm-offset-6 col-sm-12">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div  class="form-group">
                     {% if request.site.name %}<h2 class="project-title">{{ request.site.name }}</h2>{% endif %}
-                    <h3 class="page-status">Create user</h3>
                 </div>
                 <form action="." method="post">
                     {% csrf_token %}
                     {{ form.non_field_errors }}
                     {% with field=form.username %}
                     <div class="form-group form-required{% if field.errors %} has-error{% endif %}">
-                        <label for="{{ field.id_for_label }}">Username<abbr title="Required field">*</abbr></label>
+                        <label for="{{ field.id_for_label }}">{{ field.label }}<abbr title="Required field">*</abbr></label>
                         {{ field }}
                         {% if field.errors %}
                             <div class="spacer"></div>
@@ -41,7 +44,7 @@
                     </div>
                     {% endwith %}
                     <input type="hidden" name="next" value="{{ next }}" />
-                    <input class="btn btn-marketing" type="submit" value="Submit">
+                    <input class="btn btn-marketing" type="submit" value="{% trans "Create" %}">
                 </form>
                 <br />
             </div>
