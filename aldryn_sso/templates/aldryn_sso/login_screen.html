@@ -20,7 +20,7 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             {% if aldryn_sso_enable_standard_login %}
-                                {% with form=aldryn_sso_standard_login_form %}
+                                {% with form=form|default:aldryn_sso_standard_login_form %}
                                     {% include 'aldryn_sso/includes/standard_login_form.html' %}
                                 {% endwith %}
                             {% endif %}

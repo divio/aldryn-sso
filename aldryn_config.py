@@ -16,15 +16,6 @@ class Form(forms.BaseForm):
         from aldryn_addons.utils import boolean_ish
         from aldryn_addons.utils import djsenv
 
-        def add_template_context_processor(settings, processor):
-            if 'TEMPLATE_CONTEXT_PROCESSORS' in settings:
-                settings['TEMPLATE_CONTEXT_PROCESSORS'].append(processor)
-            if 'TEMPLATES' in settings and len(settings['TEMPLATES']):
-                template_settings = settings['TEMPLATES'][0]
-                template_settings.setdefault('OPTIONS', {})
-                template_settings['OPTIONS'].setdefault('context_processors', [])
-                template_settings['OPTIONS']['context_processors'].append(processor)
-
         env = partial(djsenv, settings=settings)
 
         settings['ALDRYN_SSO_HIDE_USER_MANAGEMENT'] = data['hide_user_management']
@@ -94,22 +85,6 @@ class Form(forms.BaseForm):
             if not settings['SSO_DSN']:
                 raise ImproperlyConfigured(
                     'ALDRYN_SSO_ENABLE is True, but no SSO_DSN is set.')
-            add_template_context_processor(
-                settings,
-                'aldryn_sso.context_processors.sso_login'
-            )
-
-        if settings['ALDRYN_SSO_ENABLE_STANDARD_LOGIN']:
-            add_template_context_processor(
-                settings,
-                'aldryn_sso.context_processors.standard_login',
-            )
-
-        if settings['ALDRYN_LOCALDEV_ENABLE']:
-            add_template_context_processor(
-                settings,
-                'aldryn_sso.context_processors.local_development'
-            )
 
         if settings['ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN']:
             position = settings['MIDDLEWARE_CLASSES'].index('django.contrib.auth.middleware.AuthenticationMiddleware') + 1

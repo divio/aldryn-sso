@@ -27,4 +27,9 @@ urlpatterns += patterns(
         ),
         name='aldryn_sso_login',
     ),
+    url(
+        r'^logout/$',
+        auth_views.logout,
+        name='aldryn_sso_logout',
+    )
 )

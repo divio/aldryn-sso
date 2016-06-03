@@ -4,6 +4,7 @@ from django.conf import settings
 import django.contrib.auth
 import django.contrib.auth.views
 from django.core.urlresolvers import reverse
+from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url, render_to_response
 from django.template import RequestContext
@@ -14,6 +15,25 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import CreateView
 
 from .forms import CreateUserForm, LoginAsForm
+
+
+def get_shared_context():
+    context = {}
+    if settings.ALDRYN_SSO_ENABLE:
+        context.update({
+            'aldryn_sso_enable': True,
+        })
+    if settings.ALDRYN_SSO_ENABLE_STANDARD_LOGIN:
+        context.update({
+            'aldryn_sso_standard_login_form': AuthenticationForm(),
+            'aldryn_sso_enable_standard_login': True,
+        })
+    if settings.ALDRYN_LOCALDEV_ENABLE:
+        context.update({
+            'aldryn_localdev_login_as_form': LoginAsForm(),
+            'aldryn_localdev_enable': True,
+        })
+    return context
 
 
 def get_next_from_request(request):
@@ -53,9 +73,10 @@ def login_as_user(request, next_page=None):
     else:
         context = {
             'CMSCLOUD_STATIC_URL': settings.CMSCLOUD_STATIC_URL,
-            'form': form,
+            'aldryn_localdev_login_as_form': form,
             django.contrib.auth.REDIRECT_FIELD_NAME: next_page
         }
+        context.update(get_shared_context())
         response = render_to_response(
             'aldryn_sso/login_screen.html',
             context,
@@ -82,12 +103,13 @@ class CreateUserView(CreateView):
         return get_redirect_url(self.request, fallback=fallback)
 
 
-# @sensitive_post_parameters()
-# @csrf_protect
-# @never_cache
+@sensitive_post_parameters()
+@csrf_protect
+@never_cache
 def login(request, **kwargs):
-    import ipdb; ipdb.set_trace()
-
+    extra_context = kwargs.get('extra_context', {})
+    extra_context.update(get_shared_context())
+    kwargs['extra_context'] = extra_context
     if request.method == 'POST':
         return django.contrib.auth.views.login(request, **kwargs)
     next_url = get_redirect_url(

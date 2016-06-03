@@ -2,8 +2,7 @@
 
 <form action="{% url 'aldryn_sso_login' %}" method="post" role="form">
     {% csrf_token %}
-    {{ form.non_field_errors }}
-    <div  class="form-group">
+    <div class="form-group">
         <h2>{% trans "Login" %}</h2>
     </div>
     <div class="form-group">
@@ -13,7 +12,7 @@
             </span>
             <div class="form-group">
                 <label class="sr-only" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-                <input class="form-control" id="{{ form.username.id_for_label }}" maxlength="254" name="{{ form.username.id_for_label }}" placeholder="{{ form.username.label }}" required="required" type="text">
+                <input class="form-control" id="{{ form.username.id_for_label }}" maxlength="254" name="username" placeholder="{{ form.username.label }}" required="required" type="text" value="{{ form.username.value|default_if_none:"" }}">
             </div>
         </div>
         <div class="help-text">
@@ -32,7 +31,7 @@
             </span>
             <div class="form-group">
                 <label class="sr-only" for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
-                <input class="form-control" id="{{ form.password.id_for_label }}" maxlength="254" name="{{ form.password.id_for_label }}" placeholder="{{ form.password.label }}" required="required" type="password">
+                <input class="form-control" id="{{ form.password.id_for_label }}" maxlength="254" name="password" placeholder="{{ form.password.label }}" required="required" type="password">
             </div>
         </div>
         <div class="spacer-xs"></div>
@@ -44,6 +43,9 @@
             {% endif %}
         </div>
     </div>
+    {% for error in form.non_field_errors %}
+        <span class="text-danger">{{ error }}</span>
+    {% endfor %}
     <input type="hidden" name="next" value="{{ next }}" />
     <input class="btn btn-default btn-block sso-button" type="submit" value="{% trans 'Sign in' %}">
 </form>
