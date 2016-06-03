@@ -1,0 +1,10 @@
+.tpl-messages .logo-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 35px;
+    width: 200px;
+    height: 28px;
+    margin: auto;
+    background: url(../../img/divio-aldryn-black.svg) 50% 50% no-repeat;
+}
