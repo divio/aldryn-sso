@@ -28,6 +28,11 @@ class Form(forms.BaseForm):
         env = partial(djsenv, settings=settings)
 
         settings['ALDRYN_SSO_HIDE_USER_MANAGEMENT'] = data['hide_user_management']
+
+        # if the SSO button is the only configured login option: redirect right
+        # to the login without showing the page.
+        settings['ALDRYN_SSO_AUTO_LOGIN'] = boolean_ish(env('ALDRYN_SSO_AUTO_LOGIN', True))
+
         settings['SSO_DSN'] = env('SSO_DSN')
 
         settings['LOGIN_REDIRECT_URL'] = '/'
@@ -109,7 +114,12 @@ class Form(forms.BaseForm):
         if settings['ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN']:
             position = settings['MIDDLEWARE_CLASSES'].index('django.contrib.auth.middleware.AuthenticationMiddleware') + 1
             settings['MIDDLEWARE_CLASSES'].insert(position, 'aldryn_sso.middleware.AccessControlMiddleware')
-            settings['ALDRYN_SSO_LOGIN_WHITE_LIST'].append(reverse_lazy('simple-sso-login'))
+            settings['ALDRYN_SSO_LOGIN_WHITE_LIST'].extend([
+                reverse_lazy('simple-sso-login'),
+                reverse_lazy('aldryn_sso_login'),
+                reverse_lazy('aldryn_localdev_login'),
+                reverse_lazy('aldryn_localdev_create_user'),
+            ])
             settings['SHARING_VIEW_ONLY_TOKEN_KEY_NAME'] = env('SHARING_VIEW_ONLY_TOKEN_KEY_NAME')
             settings['SHARING_VIEW_ONLY_SECRET_TOKEN'] = env('SHARING_VIEW_ONLY_SECRET_TOKEN')
 

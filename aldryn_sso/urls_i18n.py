@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls import include, patterns, url
 from django.contrib.auth import views as auth_views
 
-from .views import CreateUserView, login_as_user
+from .views import CreateUserView, login_as_user, login
 
 urlpatterns = []
 
@@ -18,7 +18,7 @@ urlpatterns += patterns(
     '',
     url(
         r'^login/$',
-        auth_views.login,
+        login,
         kwargs=dict(
             template_name='aldryn_sso/login_screen.html',
             extra_context=dict(
@@ -27,9 +27,4 @@ urlpatterns += patterns(
         ),
         name='aldryn_sso_login',
     ),
-    url(
-        r'^logout/$',
-        auth_views.logout,
-        name='aldryn_sso_logout',
-    )
 )

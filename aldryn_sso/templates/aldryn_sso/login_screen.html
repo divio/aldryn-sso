@@ -6,7 +6,7 @@
 {% block content %}
     <div class="container">
         <div class="marketing-heading text-center">
-            <h1>Sign in to {% if request.site.name %}{{ request.site.name }}{% else %}your website{% endif %}</h1>
+            <h1>Sign in to {% if request.site.name %}<strong>{{ request.site.name }}</strong>{% else %}your website{% endif %}</h1>
         </div>
         <div class="spacer-lg"></div>
         <div class="row">
@@ -20,7 +20,9 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             {% if aldryn_sso_enable_standard_login %}
-                                {% include 'aldryn_sso/includes/standard_login_form.html' %}
+                                {% with form=aldryn_sso_standard_login_form %}
+                                    {% include 'aldryn_sso/includes/standard_login_form.html' %}
+                                {% endwith %}
                             {% endif %}
                             {% if aldryn_sso_enable_standard_login and aldryn_sso_enable %}
                                 <div class="strikethrough-block">
@@ -38,6 +40,15 @@
                         <div class="spacer"></div>
                     </div>
                 {% endif %}
+            {% if not aldryn_localdev_enable and not aldryn_sso_enable_standard_login and not aldryn_sso_enable %}
+                <div class="panel panel-warning">
+                    <div class="panel-heading">Improperly Configured</div>
+                    <h2 class="text-warning"></h2>
+                    <div class="panel-body">
+                        No login methods configured. Please configure at least one method.<br/><br/>
+                    </div>
+                </div>
+            {% endif %}
             </div>
         </div>
     </div>
