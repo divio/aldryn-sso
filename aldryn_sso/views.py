@@ -53,7 +53,7 @@ def login_as_user(request, next_page=None):
             REDIRECT_FIELD_NAME: next_page
         }
         response = render_to_response(
-            'aldryn_sso/login_screen_local.html',
+            'aldryn_sso/login_screen.html',
             context,
             context_instance=RequestContext(request)
         )
@@ -74,5 +74,5 @@ class CreateUserView(CreateView):
         if self.request.user.is_authenticated():
             fallback = resolve_url(settings.LOGIN_REDIRECT_URL)
         else:
-            fallback = reverse('aldryn_local_login')
+            fallback = reverse('aldryn_localdev_login')
         return get_redirect_url(self.request, fallback=fallback)

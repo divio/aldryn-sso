@@ -1,0 +1,19 @@
+{% load i18n %}
+
+<form action="{% url 'aldryn_sso_login' %}" method="post" role="form">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="form-row">
+        {{ form.username.errors }}
+        {{ form.username.label_tag }} {{ form.username }}
+    </div>
+    <div class="form-row">
+        {{ form.password.errors }}
+        {{ form.password.label_tag }} {{ form.password }}
+    <input type="hidden" name="next" value="{{ next }}" />
+    </div>
+
+    <button type="submit" class="btn btn-marketing btn-block btn-lg">
+        {% trans "Sign in" %}
+    </button>
+</form>
