@@ -7,7 +7,7 @@ from .views import CreateUserView, login_as_user, login
 
 urlpatterns = []
 
-if getattr(settings, 'ALDRYN_LOCALDEV_ENABLE', False):
+if getattr(settings, 'ALDRYN_SSO_ENABLE_LOCALDEV', False):
     urlpatterns += patterns(
         '',
         url(r'^localdev/create-user/$', CreateUserView.as_view(), name='aldryn_localdev_create_user'),

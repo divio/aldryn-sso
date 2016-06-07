@@ -19,16 +19,16 @@ from .forms import CreateUserForm, LoginAsForm
 
 def get_shared_context():
     context = {}
-    if settings.ALDRYN_SSO_ENABLE:
+    if settings.ALDRYN_SSO_ENABLE_SSO_LOGIN:
         context.update({
             'aldryn_sso_enable': True,
         })
-    if settings.ALDRYN_SSO_ENABLE_STANDARD_LOGIN:
+    if settings.ALDRYN_SSO_ENABLE_LOGIN_FORM:
         context.update({
             'aldryn_sso_standard_login_form': AuthenticationForm(),
             'aldryn_sso_enable_standard_login': True,
         })
-    if settings.ALDRYN_LOCALDEV_ENABLE:
+    if settings.ALDRYN_SSO_ENABLE_LOCALDEV:
         context.update({
             'aldryn_localdev_login_as_form': LoginAsForm(),
             'aldryn_localdev_enable': True,
@@ -119,9 +119,9 @@ def login(request, **kwargs):
         return HttpResponseRedirect(next_url)
     if (
         settings.ALDRYN_SSO_AUTO_LOGIN and
-        settings.ALDRYN_SSO_ENABLE and not (
-            settings.ALDRYN_LOCALDEV_ENABLE or
-            settings.ALDRYN_SSO_ENABLE_STANDARD_LOGIN
+        settings.ALDRYN_SSO_ENABLE_SSO_LOGIN and not (
+            settings.ALDRYN_SSO_ENABLE_LOCALDEV or
+            settings.ALDRYN_SSO_ENABLE_LOGIN_FORM
         )
     ):
         # The aldryn SSO button would be the only thing on the page. So we just

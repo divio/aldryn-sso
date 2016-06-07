@@ -28,23 +28,23 @@ class Form(forms.BaseForm):
 
         settings['LOGIN_REDIRECT_URL'] = '/'
 
-        settings['ALDRYN_SSO_ENABLE'] = boolean_ish(
+        settings['ALDRYN_SSO_ENABLE_SSO_LOGIN'] = boolean_ish(
             env(
-                'ALDRYN_SSO_ENABLE',
+                'ALDRYN_SSO_ENABLE_SSO_LOGIN',
                 default=boolean_ish(settings['SSO_DSN']),
             )
         )
 
-        settings['ALDRYN_SSO_ENABLE_STANDARD_LOGIN'] = boolean_ish(
+        settings['ALDRYN_SSO_ENABLE_LOGIN_FORM'] = boolean_ish(
             env(
-                'ALDRYN_SSO_ENABLE_STANDARD_LOGIN',
+                'ALDRYN_SSO_ENABLE_LOGIN_FORM',
                 default=not settings['ALDRYN_SSO_HIDE_USER_MANAGEMENT'],
             )
         )
 
-        settings['ALDRYN_LOCALDEV_ENABLE'] = boolean_ish(
+        settings['ALDRYN_SSO_ENABLE_LOCALDEV'] = boolean_ish(
             env(
-                'ALDRYN_LOCALDEV_ENABLE',
+                'ALDRYN_SSO_ENABLE_LOCALDEV',
                 default=env('STAGE') == 'local',
             )
         )
@@ -71,7 +71,7 @@ class Form(forms.BaseForm):
             'aldryn_sso'
         )
 
-        if settings['ALDRYN_SSO_ENABLE']:
+        if settings['ALDRYN_SSO_ENABLE_SSO_LOGIN']:
             # Expire user session every day because:
             # Users can change their data on the SSO server.
             # We cannot do a sync of "recently changed" user data due to these reasons:
@@ -81,7 +81,7 @@ class Form(forms.BaseForm):
             settings['CLOUD_USER_SESSION_EXPIRATION'] = 24 * 60 * 60  # 24h = 1day
             if not settings['SSO_DSN']:
                 raise ImproperlyConfigured(
-                    'ALDRYN_SSO_ENABLE is True, but no SSO_DSN is set.')
+                    'ALDRYN_SSO_ENABLE_SSO_LOGIN is True, but no SSO_DSN is set.')
 
         if settings['ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN']:
             position = settings['MIDDLEWARE_CLASSES'].index('django.contrib.auth.middleware.AuthenticationMiddleware') + 1
@@ -96,9 +96,9 @@ class Form(forms.BaseForm):
             settings['SHARING_VIEW_ONLY_SECRET_TOKEN'] = env('SHARING_VIEW_ONLY_SECRET_TOKEN')
 
         settings['ALDRYN_SSO_OVERIDE_LOGIN_VIEW'] = any([
-            settings['ALDRYN_SSO_ENABLE'],
-            settings['ALDRYN_SSO_ENABLE_STANDARD_LOGIN'],
-            settings['ALDRYN_LOCALDEV_ENABLE'],
+            settings['ALDRYN_SSO_ENABLE_SSO_LOGIN'],
+            settings['ALDRYN_SSO_ENABLE_LOGIN_FORM'],
+            settings['ALDRYN_SSO_ENABLE_LOCALDEV'],
         ])
 
         if settings['ALDRYN_SSO_OVERIDE_LOGIN_VIEW']:
