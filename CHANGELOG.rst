@@ -1,10 +1,22 @@
 CHANGELOG
 =========
 
+1.1.0 (2016-06-07)
+------------------
+
+* optionally allow form based username/password logins
+* separate settings to enable login methods (form, sso and localdev)
+* all static media served from within the app
+  (no longer relies on static.aldryn.com for css)
+* if SSO is the only option, redirect straight to the login procedure instead of
+  showing a screen with a single button to press.
+
+
 1.0.14 (2016-05-29)
 -------------------
 
 * Fix faulty default for "hide user management" setting
+
 
 1.0.13 (2016-05-24)
 -------------------
