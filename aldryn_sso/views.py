@@ -45,7 +45,6 @@ def get_next_from_request(request):
 
 
 def get_redirect_url(request, fallback=None):
-    # don't use request.REQUEST because it is deprecated.
     redirect_to = get_next_from_request(request)
 
     # Ensure the user-originating redirection url is safe.
