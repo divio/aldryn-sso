@@ -22,7 +22,9 @@ class Form(forms.BaseForm):
 
         # if the SSO button is the only configured login option: redirect right
         # to the login without showing the page.
-        settings['ALDRYN_SSO_AUTO_LOGIN'] = boolean_ish(env('ALDRYN_SSO_AUTO_LOGIN', True))
+        settings['ALDRYN_SSO_ENABLE_AUTO_SSO_LOGIN'] = boolean_ish(
+            env('ALDRYN_SSO_ENABLE_AUTO_SSO_LOGIN', True)
+        )
 
         settings['SSO_DSN'] = env('SSO_DSN')
 
@@ -89,7 +91,7 @@ class Form(forms.BaseForm):
             settings['ALDRYN_SSO_LOGIN_WHITE_LIST'].extend([
                 reverse_lazy('simple-sso-login'),
                 reverse_lazy('aldryn_sso_login'),
-                reverse_lazy('aldryn_localdev_login'),
+                reverse_lazy('aldryn_sso_localdev_login'),
                 reverse_lazy('aldryn_localdev_create_user'),
             ])
             settings['SHARING_VIEW_ONLY_TOKEN_KEY_NAME'] = env('SHARING_VIEW_ONLY_TOKEN_KEY_NAME')

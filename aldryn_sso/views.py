@@ -18,21 +18,21 @@ from .forms import CreateUserForm, LoginAsForm
 
 
 def get_shared_context():
+    setting_keys = [
+        'enable_sso_login',
+        'enable_auto_sso_login',
+        'enable_login_form',
+        'enable_localdev',
+    ]
     context = {}
-    if settings.ALDRYN_SSO_ENABLE_SSO_LOGIN:
-        context.update({
-            'aldryn_sso_enable': True,
-        })
-    if settings.ALDRYN_SSO_ENABLE_LOGIN_FORM:
-        context.update({
-            'aldryn_sso_standard_login_form': AuthenticationForm(),
-            'aldryn_sso_enable_standard_login': True,
-        })
-    if settings.ALDRYN_SSO_ENABLE_LOCALDEV:
-        context.update({
-            'aldryn_localdev_login_as_form': LoginAsForm(),
-            'aldryn_localdev_enable': True,
-        })
+    for key in setting_keys:
+        key_name = 'aldryn_sso_{}'.format(key)
+        value = getattr(settings, key_name.upper(), False)
+        context[key_name] = value
+        if key == 'enable_login_form':
+            context['aldryn_sso_login_form'] = AuthenticationForm()
+        elif key == 'enable_localdev':
+            context['aldryn_sso_localdev_login_as_form'] = LoginAsForm()
     return context
 
 
@@ -71,7 +71,7 @@ def login_as_user(request, next_page=None):
         response = HttpResponseRedirect(next_page)
     else:
         context = {
-            'aldryn_localdev_login_as_form': form,
+            'aldryn_sso_localdev_login_as_form': form,
             django.contrib.auth.REDIRECT_FIELD_NAME: next_page
         }
         context.update(get_shared_context())
@@ -96,7 +96,7 @@ class CreateUserView(CreateView):
         if self.request.user.is_authenticated():
             fallback = resolve_url(settings.LOGIN_REDIRECT_URL)
         else:
-            fallback = reverse('aldryn_localdev_login')
+            fallback = reverse('aldryn_sso_localdev_login')
         return get_redirect_url(self.request, fallback=fallback)
 
 
@@ -117,7 +117,7 @@ def login(request, **kwargs):
         # already authenticated. no sense in logging in.
         return HttpResponseRedirect(next_url)
     if (
-        settings.ALDRYN_SSO_AUTO_LOGIN and
+        settings.ALDRYN_SSO_ENABLE_AUTO_SSO_LOGIN and
         settings.ALDRYN_SSO_ENABLE_SSO_LOGIN and not (
             settings.ALDRYN_SSO_ENABLE_LOCALDEV or
             settings.ALDRYN_SSO_ENABLE_LOGIN_FORM

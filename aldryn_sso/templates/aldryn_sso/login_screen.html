@@ -11,20 +11,20 @@
         <div class="spacer-lg"></div>
         <div class="row">
             <div class="col-md-12 col-md-offset-6 col-sm-16 col-sm-offset-4">
-                {% if aldryn_localdev_enable %}
-                    {% with form=aldryn_localdev_login_as_form %}
-                        {% include 'aldryn_sso/includes/local_development_login_form.html' %}
+                {% if aldryn_sso_enable_localdev %}
+                    {% with form=aldryn_sso_localdev_login_as_form %}
+                        {% include 'aldryn_sso/includes/localdev_login_form.html' %}
                     {% endwith %}
                 {% endif %}
-                {% if aldryn_sso_enable_standard_login or aldryn_sso_enable %}
+                {% if aldryn_sso_enable_login_form or aldryn_sso_enable_sso_login %}
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            {% if aldryn_sso_enable_standard_login %}
-                                {% with form=form|default:aldryn_sso_standard_login_form %}
-                                    {% include 'aldryn_sso/includes/standard_login_form.html' %}
+                            {% if aldryn_sso_enable_login_form %}
+                                {% with form=form|default:aldryn_sso_login_form %}
+                                    {% include 'aldryn_sso/includes/login_form.html' %}
                                 {% endwith %}
                             {% endif %}
-                            {% if aldryn_sso_enable_standard_login and aldryn_sso_enable %}
+                            {% if aldryn_sso_enable_login_form and aldryn_sso_enable_sso_login %}
                                 <div class="strikethrough-block">
                                     <hr>
                                     <div class="text-center">
@@ -32,7 +32,7 @@
                                     </div>
                                 </div>
                             {% endif %}
-                            {% if aldryn_sso_enable %}
+                            {% if aldryn_sso_enable_sso_login %}
                                 <div class="spacer"></div>
                                 {% include 'aldryn_sso/includes/sso_login_button.html' %}
                             {% endif %}
@@ -40,7 +40,7 @@
                         <div class="spacer"></div>
                     </div>
                 {% endif %}
-            {% if not aldryn_localdev_enable and not aldryn_sso_enable_standard_login and not aldryn_sso_enable %}
+            {% if not aldryn_sso_enable_localdev and not aldryn_sso_enable_login_form and not aldryn_sso_enable_sso_login %}
                 <div class="panel panel-warning">
                     <div class="panel-heading">Improperly Configured</div>
                     <h2 class="text-warning"></h2>
