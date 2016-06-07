@@ -1,7 +1,5 @@
 {# This works because "as" fails silently #}
-{% url 'aldryn_local_login' as local_login_url %}
-{% url 'aldryn_local_create_user' as create_user_url %}
-{% url 'simple-sso-login' as sso_login_url %}
+{% url 'aldryn_sso_login' as aldryn_sso_login_url %}
 
 {% comment %}
 `cms_` classes are for CMS 3.0.x/3.1.x
@@ -9,20 +7,8 @@
 `cms-btn-active` does what it should do since 3.2 so it's not included anymore
 {% endcomment %}
 
-{% if sso_login_url %}
+{% if aldryn_sso_login_url %}
     <div class="cms_toolbar-item cms_toolbar-item-buttons cms-toolbar-item cms-toolbar-item-buttons">
-        <a href="{{ sso_login_url }}?next={{ request.path }}" class="cms_btn cms_btn-active cms_btn-action cms-btn cms-btn-action">Login</a>
-    </div>
-{% endif %}
-
-{% if local_login_url %}
-<div class="cms_toolbar-item cms_toolbar-item-buttons cms-toolbar-item cms-toolbar-item-buttons">
-    <a href="{{ local_login_url }}?next={{ request.path }}" class="cms_btn cms_btn-active cms_btn-action cms-btn cms-btn-action">Login as...</a>
-</div>
-{% endif %}
-
-{% if create_user_url %}
-    <div class="cms_toolbar-item cms_toolbar-item-buttons cms-toolbar-item cms-toolbar-item-buttons">
-        <a href="{{ create_user_url }}?next={{ request.path }}" class="cms_btn cms_btn-active cms_btn-action cms-btn cms-btn-action">Create user</a>
+        <a href="{{ aldryn_sso_login_url }}?next={{ request.path }}" class="cms_btn cms_btn-active cms_btn-action cms-btn cms-btn-action">Login</a>
     </div>
 {% endif %}

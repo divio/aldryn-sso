@@ -1,21 +1,55 @@
 {% extends "aldryn_sso/base.html" %}
+{% load i18n %}
 
-{% block page_title %}Your site is ready{% endblock page_title %}
+{% block page_title %}{% if request.site.name %}{{ request.site.name }} {% endif %}Sign in{% endblock page_title %}
 
 {% block content %}
-    <div class="col-xs-24 col-sm-offset-12 col-sm-12">
-        <div  class="form-group">
-            {% if request.site.name %}<h2 class="project-title">{{ request.site.name }}</h2>{% endif %}
-            <h3 class="page-status">Please sign in</h3>
-            <p class="help-block page-explanation">
-                To access this protected website, click on the button below to continue with your Divio Aldryn user.
-            </p>
+    <div class="container">
+        <div class="marketing-heading text-center">
+            <h1>Sign in to {% if request.site.name %}<strong>{{ request.site.name }}</strong>{% else %}your website{% endif %}</h1>
         </div>
-        <p class="text-left"><a
-                class="btn btn-marketing with-brand-icon"
-                href="/login/?next={{ request.path|urlencode }}">
-                <span aria-hidden="true" class="aldryn-icon"></span>
-                Sign in with aldryn
-        </a></p>
+        <div class="spacer-lg"></div>
+        <div class="row">
+            <div class="col-md-12 col-md-offset-6 col-sm-16 col-sm-offset-4">
+                {% if aldryn_localdev_enable %}
+                    {% with form=aldryn_localdev_login_as_form %}
+                        {% include 'aldryn_sso/includes/local_development_login_form.html' %}
+                    {% endwith %}
+                {% endif %}
+                {% if aldryn_sso_enable_standard_login or aldryn_sso_enable %}
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            {% if aldryn_sso_enable_standard_login %}
+                                {% with form=form|default:aldryn_sso_standard_login_form %}
+                                    {% include 'aldryn_sso/includes/standard_login_form.html' %}
+                                {% endwith %}
+                            {% endif %}
+                            {% if aldryn_sso_enable_standard_login and aldryn_sso_enable %}
+                                <div class="strikethrough-block">
+                                    <hr>
+                                    <div class="text-center">
+                                        <span class="line-text">{% trans "OR" %}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if aldryn_sso_enable %}
+                                <div class="spacer"></div>
+                                {% include 'aldryn_sso/includes/sso_login_button.html' %}
+                            {% endif %}
+                        </div>
+                        <div class="spacer"></div>
+                    </div>
+                {% endif %}
+            {% if not aldryn_localdev_enable and not aldryn_sso_enable_standard_login and not aldryn_sso_enable %}
+                <div class="panel panel-warning">
+                    <div class="panel-heading">Improperly Configured</div>
+                    <h2 class="text-warning"></h2>
+                    <div class="panel-body">
+                        No login methods configured. Please configure at least one method.<br/><br/>
+                    </div>
+                </div>
+            {% endif %}
+            </div>
+        </div>
     </div>
-{% endblock content %}
+{% endblock %}

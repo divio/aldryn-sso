@@ -1,0 +1,21 @@
+.marketing-heading {
+    padding: 30px 0 25px;
+}
+.strikethrough-block {
+    padding: 30px 0 0;
+    position: relative;
+}
+.strikethrough-block hr {
+    margin: 0;
+}
+.line-text {
+    position: relative;
+    top: -10px;
+    font-weight: 400;
+    padding: 0 20px;
+    background-color: white;
+}
+.sso-button {
+    font-size: 14px;
+    text-transform: uppercase;
+}

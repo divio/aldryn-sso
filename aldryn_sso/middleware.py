@@ -7,8 +7,10 @@ import re
 import sys
 
 from django.conf import settings
+from django.core.urlresolvers import NoReverseMatch, reverse
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
+from django.utils.http import urlencode
 from django.utils.translation import get_language_from_path
 
 
@@ -53,7 +55,10 @@ class AccessControlMiddleware(object):
         path_without_prefix = self.strip_language(request.path)
 
         for exclusive_path in self.LOGIN_WHITE_LIST:
-            exclusive_path = cast_to_str(exclusive_path)
+            try:
+                exclusive_path = cast_to_str(exclusive_path)
+            except NoReverseMatch:
+                continue
             exclusive_path_without_prefix = self.strip_language(exclusive_path)
 
             if exclusive_path == path:
@@ -88,9 +93,8 @@ class AccessControlMiddleware(object):
         return self.render_login_page(request)
 
     def render_login_page(self, request):
-        response = TemplateResponse(
-            request,
-            template=self.login_template,
-            context={'CMSCLOUD_STATIC_URL': settings.CMSCLOUD_STATIC_URL},
+        login_url = '{}?{}'.format(
+            reverse('aldryn_sso_login'),
+            urlencode(dict(next=request.path_info)),
         )
-        return response
+        return HttpResponseRedirect(login_url)
