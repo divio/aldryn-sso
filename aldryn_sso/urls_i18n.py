@@ -21,9 +21,6 @@ urlpatterns += patterns(
         login,
         kwargs=dict(
             template_name='aldryn_sso/login_screen.html',
-            extra_context=dict(
-                CMSCLOUD_STATIC_URL=settings.CMSCLOUD_STATIC_URL,
-            )
         ),
         name='aldryn_sso_login',
     ),

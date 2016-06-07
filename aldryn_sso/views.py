@@ -72,7 +72,6 @@ def login_as_user(request, next_page=None):
         response = HttpResponseRedirect(next_page)
     else:
         context = {
-            'CMSCLOUD_STATIC_URL': settings.CMSCLOUD_STATIC_URL,
             'aldryn_localdev_login_as_form': form,
             django.contrib.auth.REDIRECT_FIELD_NAME: next_page
         }
@@ -91,7 +90,6 @@ class CreateUserView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CreateUserView, self).get_context_data(**kwargs)
-        context['CMSCLOUD_STATIC_URL'] = settings.CMSCLOUD_STATIC_URL
         context[django.contrib.auth.REDIRECT_FIELD_NAME] = get_next_from_request(self.request)
         return context
 

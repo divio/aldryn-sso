@@ -71,9 +71,6 @@ class Form(forms.BaseForm):
             'aldryn_sso'
         )
 
-        # FIXME: CMSCLOUD_STATIC_URL must be removed
-        settings['CMSCLOUD_STATIC_URL'] = env('CMSCLOUD_STATIC_URL', 'https://static.aldryn.com/')
-
         if settings['ALDRYN_SSO_ENABLE']:
             # Expire user session every day because:
             # Users can change their data on the SSO server.
