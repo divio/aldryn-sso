@@ -15,6 +15,7 @@ setup(
     install_requires=(
         'aldryn-addons',
         'django-simple-sso',
+        'furl',
     ),
     include_package_data=True,
     zip_safe=False,
