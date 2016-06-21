@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+
+1.1.1 (2016-06-21)
+------------------
+
+* bugfixes for new login view
+* instant ajax SSO login if user is already signed in on the sso server
+
+
 1.1.0 (2016-06-07)
 ------------------
 
