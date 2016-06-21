@@ -1,43 +1,67 @@
 {% load i18n admin_static %}
 {% url 'simple-sso-login' as sso_login_url %}
-<a
-    class="btn btn-marketing with-brand-icon btn-block"
+<a class="btn btn-marketing with-brand-icon btn-block sso-login-btn hidden"
     href="{{ sso_login_url }}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}">
     <span aria-hidden="true" class="aldryn-icon"></span>
     {% trans "Sign in with Aldryn" %}
 </a>
-<div id="login-progress" style="display: none;">checking login...</div>
-<div id="login-success" style="display: none;">checking login... logged in!</div>
+
+<div class="text-center sso-login-loader">
+    <div class="content-loading">
+        <div class="circle"></div>
+        <div class="circle-inside"></div>
+        <div class="logo sso-logo" style="background-image: url({% static 'aldryn_sso/img/loader.svg' %});"></div>
+    </div>
+</div>
+
 {% if aldryn_sso_enable_auto_sso_login %}
-    <script type="application/javascript">
-        // my crude js implementation of auto login. please, someone who
-        // actually know what they are doing fix this for me :-)
-        var xhr = new XMLHttpRequest();
-        var loginProgress = document.getElementsByClassName("login-progress");
-        xhr.open('GET', '{{ sso_login_url }}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}');
-        xhr.withCredentials = true;
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log('login response');
-                console.log(xhr.responseText);
-                var response = JSON.parse(xhr.response);
-                if (response.is_authenticated === true) {
-                    document.getElementById('login-progress').style.display = 'none';
-                    document.getElementById('login-success').style.display = 'block';
-                    location.reload();
-                }
-            } else {
-                // It is very likely that the request was redirected to the
-                // login form on the sso server and we got a CORS error.
-                // That is ok, it just means we're not logged in there yet.
-                console.log('could not log in. probably the user is not logged in on the sso server yet.');
-                document.getElementById('login-progress').style.display = 'none';
+    <script type="text/javascript">
+        (function() {
+            var xhr = new XMLHttpRequest();
+            var loginLoader = document.getElementsByClassName("sso-login-loader")[0];
+            var loginButton = document.getElementsByClassName("sso-login-btn")[0];
+
+            if (!xhr) {
+                return false;
             }
-        };
-        console.log('sending xhr login request');
-        document.getElementById('login-progress').style.display = 'block';
-        xhr.send(null);
+
+            xhr.open('GET', '{{ sso_login_url }}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}');
+            xhr.withCredentials = true;
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.onreadystatechange = handleResponse;
+            xhr.send(null);
+
+            function handleResponse() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    if (JSON.parse(xhr.response).is_authenticated === true) {
+                        location.reload();
+                    }
+                } else {
+                    // It is very likely that the request was redirected to the
+                    // login form on the sso server and we got a CORS error.
+                    // That is ok, it just means we're not logged in there yet.
+                    console.log('could not log in. probably the user is not logged in on the sso server yet.');
+
+                    addClass(loginLoader, 'hidden');
+                    removeClass(loginButton, 'hidden');
+                }
+            }
+
+            function hasClass(el, cls) {
+                return !!el.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+            }
+
+            function addClass(el, cls) {
+                if (!hasClass(el, cls)) el.className += " " + cls;
+            }
+
+            function removeClass(el, cls) {
+                if (hasClass(el, cls)) {
+                    var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+                    el.className = el.className.replace(reg, ' ');
+                }
+            }
+        })();
     </script>
 {% endif %}
 
