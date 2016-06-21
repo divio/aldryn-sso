@@ -32,6 +32,8 @@ def get_shared_context():
         if key == 'enable_login_form':
             context['aldryn_sso_login_form'] = AuthenticationForm()
         elif key == 'enable_localdev':
+    if not context['aldryn_sso_enable_sso_login']:
+        context['aldryn_sso_enable_auto_sso_login'] = False
             context['aldryn_sso_localdev_login_as_form'] = LoginAsForm()
     return context
 
