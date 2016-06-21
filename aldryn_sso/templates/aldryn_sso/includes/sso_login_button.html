@@ -1,25 +1,15 @@
 {% load i18n admin_static %}
 {% url 'simple-sso-login' as sso_login_url %}
-<a class="btn btn-marketing with-brand-icon btn-block sso-login-btn hidden"
+<a class="btn btn-marketing with-brand-icon btn-block"
     href="{{ sso_login_url }}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}">
     <span aria-hidden="true" class="aldryn-icon"></span>
     {% trans "Sign in with Aldryn" %}
 </a>
 
-<div class="text-center sso-login-loader">
-    <div class="content-loading">
-        <div class="circle"></div>
-        <div class="circle-inside"></div>
-        <div class="logo sso-logo" style="background-image: url({% static 'aldryn_sso/img/loader.svg' %});"></div>
-    </div>
-</div>
-
 {% if aldryn_sso_enable_auto_sso_login %}
     <script type="text/javascript">
         (function() {
             var xhr = new XMLHttpRequest();
-            var loginLoader = document.getElementsByClassName("sso-login-loader")[0];
-            var loginButton = document.getElementsByClassName("sso-login-btn")[0];
 
             if (!xhr) {
                 showLoginButton();
@@ -47,8 +37,8 @@
             }
 
             function showLoginButton() {
-                addClass(loginLoader, 'hidden');
-                removeClass(loginButton, 'hidden');
+                addClass(document.getElementsByClassName("sso-login-loader")[0], 'hidden');
+                removeClass(document.getElementsByClassName("sso-login-screen")[0], 'hidden');
             }
 
             function hasClass(el, cls) {
