@@ -3,12 +3,41 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
+from django.core.urlresolvers import reverse
 from django.template.response import TemplateResponse
+from .models import AldrynSSOUser
 
+
+class AldrynCloudUserAdmin(admin.ModelAdmin):
+    list_display = (
+        'cloud_id',
+        'linked_user',
+    )
+    search_fields = (
+        'cloud_id',
+        'user__username',
+        'user__first_name',
+        'user__last_name',
+        'user__email',
+    )
+    raw_id_fields = (
+        'user',
+    )
+
+    def linked_user(self, obj):
+        return '<a href="{}">{}</a>'.format(
+            reverse('admin:auth_user_change', args=[obj.pk]),
+            obj.user,
+        )
+    linked_user.short_description = 'user'
+    linked_user.allow_tags = True
+    linked_user.admin_order_field = 'user'
 
 if settings.ALDRYN_SSO_HIDE_USER_MANAGEMENT:
     admin.site.unregister(User)
     admin.site.unregister(Group)
+else:
+    admin.site.register(AldrynSSOUser, AldrynCloudUserAdmin)
 
 
 original_admin_login_view = admin.site.login
