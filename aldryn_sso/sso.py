@@ -28,7 +28,7 @@ class QuickerExpirationAuthenticateView(AuthenticateView):
         # request.is_ajax() does not work for xhr redirects :-(
         next = self.get_next()
         next = furl(next)
-        is_ajax = bool(next.args.pop(IS_AJAX_URLPARAM))
+        is_ajax = bool(next.args.pop(IS_AJAX_URLPARAM, False))
         if is_ajax and request.user.is_authenticated():
             # return JSON response so JS can detect that the login was
             # successful.
