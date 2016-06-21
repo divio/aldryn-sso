@@ -22,7 +22,9 @@ class Form(forms.BaseForm):
 
         # if the SSO button is the only configured login option: redirect right
         # to the login without showing the page.
-        settings['ALDRYN_SSO_AUTO_LOGIN'] = boolean_ish(env('ALDRYN_SSO_AUTO_LOGIN', True))
+        settings['ALDRYN_SSO_ENABLE_AUTO_SSO_LOGIN'] = boolean_ish(
+            env('ALDRYN_SSO_ENABLE_AUTO_SSO_LOGIN', True)
+        )
 
         settings['SSO_DSN'] = env('SSO_DSN')
 
@@ -89,19 +91,22 @@ class Form(forms.BaseForm):
             settings['ALDRYN_SSO_LOGIN_WHITE_LIST'].extend([
                 reverse_lazy('simple-sso-login'),
                 reverse_lazy('aldryn_sso_login'),
-                reverse_lazy('aldryn_localdev_login'),
+                reverse_lazy('aldryn_sso_localdev_login'),
                 reverse_lazy('aldryn_localdev_create_user'),
             ])
             settings['SHARING_VIEW_ONLY_TOKEN_KEY_NAME'] = env('SHARING_VIEW_ONLY_TOKEN_KEY_NAME')
             settings['SHARING_VIEW_ONLY_SECRET_TOKEN'] = env('SHARING_VIEW_ONLY_SECRET_TOKEN')
 
-        settings['ALDRYN_SSO_OVERIDE_LOGIN_VIEW'] = any([
-            settings['ALDRYN_SSO_ENABLE_SSO_LOGIN'],
-            settings['ALDRYN_SSO_ENABLE_LOGIN_FORM'],
-            settings['ALDRYN_SSO_ENABLE_LOCALDEV'],
-        ])
+        settings['ALDRYN_SSO_OVERIDE_ADMIN_LOGIN_VIEW'] = env(
+            'ALDRYN_SSO_OVERIDE_ADMIN_LOGIN_VIEW',
+                any([
+                settings['ALDRYN_SSO_ENABLE_SSO_LOGIN'],
+                settings['ALDRYN_SSO_ENABLE_LOGIN_FORM'],
+                settings['ALDRYN_SSO_ENABLE_LOCALDEV'],
+            ])
+        )
 
-        if settings['ALDRYN_SSO_OVERIDE_LOGIN_VIEW']:
+        if settings['ALDRYN_SSO_OVERIDE_ADMIN_LOGIN_VIEW']:
             # configure our combined login view to be the default
             settings['LOGIN_URL'] = 'aldryn_sso_login'
             # see admin.py for how we force admin to use this view as well

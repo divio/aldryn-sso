@@ -4,7 +4,6 @@ from django.conf import settings
 import django.contrib.auth
 import django.contrib.auth.views
 from django.core.urlresolvers import reverse
-from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url, render_to_response
 from django.template import RequestContext
@@ -14,25 +13,27 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import CreateView
 
-from .forms import CreateUserForm, LoginAsForm
+from .forms import CreateUserForm, LoginAsForm, AuthenticationForm
 
 
 def get_shared_context():
+    setting_keys = [
+        'enable_sso_login',
+        'enable_auto_sso_login',
+        'enable_login_form',
+        'enable_localdev',
+    ]
     context = {}
-    if settings.ALDRYN_SSO_ENABLE_SSO_LOGIN:
-        context.update({
-            'aldryn_sso_enable': True,
-        })
-    if settings.ALDRYN_SSO_ENABLE_LOGIN_FORM:
-        context.update({
-            'aldryn_sso_standard_login_form': AuthenticationForm(),
-            'aldryn_sso_enable_standard_login': True,
-        })
-    if settings.ALDRYN_SSO_ENABLE_LOCALDEV:
-        context.update({
-            'aldryn_localdev_login_as_form': LoginAsForm(),
-            'aldryn_localdev_enable': True,
-        })
+    for key in setting_keys:
+        key_name = 'aldryn_sso_{}'.format(key)
+        value = getattr(settings, key_name.upper(), False)
+        context[key_name] = value
+        if key == 'enable_login_form':
+            context['aldryn_sso_login_form'] = AuthenticationForm()
+        elif key == 'enable_localdev':
+            context['aldryn_sso_localdev_login_as_form'] = LoginAsForm()
+    if not context['aldryn_sso_enable_sso_login']:
+        context['aldryn_sso_enable_auto_sso_login'] = False
     return context
 
 
@@ -71,7 +72,7 @@ def login_as_user(request, next_page=None):
         response = HttpResponseRedirect(next_page)
     else:
         context = {
-            'aldryn_localdev_login_as_form': form,
+            'aldryn_sso_localdev_login_as_form': form,
             django.contrib.auth.REDIRECT_FIELD_NAME: next_page
         }
         context.update(get_shared_context())
@@ -96,7 +97,7 @@ class CreateUserView(CreateView):
         if self.request.user.is_authenticated():
             fallback = resolve_url(settings.LOGIN_REDIRECT_URL)
         else:
-            fallback = reverse('aldryn_localdev_login')
+            fallback = reverse('aldryn_sso_localdev_login')
         return get_redirect_url(self.request, fallback=fallback)
 
 
@@ -104,6 +105,7 @@ class CreateUserView(CreateView):
 @csrf_protect
 @never_cache
 def login(request, **kwargs):
+    kwargs['authentication_form'] = AuthenticationForm
     extra_context = kwargs.get('extra_context', {})
     extra_context.update(get_shared_context())
     kwargs['extra_context'] = extra_context
@@ -117,7 +119,7 @@ def login(request, **kwargs):
         # already authenticated. no sense in logging in.
         return HttpResponseRedirect(next_url)
     if (
-        settings.ALDRYN_SSO_AUTO_LOGIN and
+        settings.ALDRYN_SSO_ENABLE_AUTO_SSO_LOGIN and
         settings.ALDRYN_SSO_ENABLE_SSO_LOGIN and not (
             settings.ALDRYN_SSO_ENABLE_LOCALDEV or
             settings.ALDRYN_SSO_ENABLE_LOGIN_FORM

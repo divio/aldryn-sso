@@ -1,0 +1,12 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></div>{% endblock %}
+
+{% block content %}
+
+<p>{% trans "Only staff users can access the admin area." %}</p>
+<p>{% trans "You are logged in as:" %} <strong>{{ request.user }}</strong></p>
+<p><a href="{% url 'aldryn_sso_logout' %}">{% trans 'Log out' %}</a></p>
+<p><a href="/" class="pull-right">{% trans 'View site' %}</a></p>
+{% endblock %}

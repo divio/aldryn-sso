@@ -11,7 +11,7 @@ if getattr(settings, 'ALDRYN_SSO_ENABLE_LOCALDEV', False):
     urlpatterns += patterns(
         '',
         url(r'^localdev/create-user/$', CreateUserView.as_view(), name='aldryn_localdev_create_user'),
-        url(r'^localdev/login-as/$', login_as_user, name='aldryn_localdev_login'),
+        url(r'^localdev/login-as/$', login_as_user, name='aldryn_sso_localdev_login'),
     )
 
 urlpatterns += patterns(

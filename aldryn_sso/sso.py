@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
+import json
+
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.http import HttpResponse
+from furl import furl
 
-from simple_sso.sso_client.client import Client, AuthenticateView
+from simple_sso.sso_client.client import Client, AuthenticateView, LoginView
 
 from .models import AldrynCloudUser
 
 
 ALDRYN_USER_SESSION_KEY = '_aldryn_user'
+IS_AJAX_URLPARAM = '__is_xhr_login'
 
 
 class QuickerExpirationAuthenticateView(AuthenticateView):
@@ -17,10 +22,46 @@ class QuickerExpirationAuthenticateView(AuthenticateView):
         request.session[ALDRYN_USER_SESSION_KEY] = True
         request.session.set_expiry(settings.CLOUD_USER_SESSION_EXPIRATION)
         request.session.save()
+
+        # request.is_ajax() does not work for xhr redirects :-(
+        next_url = self.get_next()
+        next_url = furl(next_url)
+        is_ajax = bool(next_url.args.pop(IS_AJAX_URLPARAM, False))
+        if is_ajax and request.user.is_authenticated():
+            # Return JSON response so JS can detect that the login was
+            # successful.
+            response = HttpResponse(
+                json.dumps({
+                    'is_authenticated': True,
+                    'next': next_url.url,
+                }),
+                content_type="application/json",
+            )
+            # If the token were not valid, we'd never get here. So it is safe
+            # to set very open CORS headers.
+            # 'null' because that is what most browsers send as "Origin" after a
+            # xhr redirect from an different domain.
+            response['Access-Control-Allow-Origin'] = 'null'
+            response['Access-Control-Allow-Credentials'] = 'true'
+            return response
+        response['Location'] = next_url.url
         return response
 
 
+class TryLoginView(LoginView):
+    """
+    Same as normal login view, adds a indicator so that it is still possible
+    to identify this as an ajax request after all the redirects.
+    """
+    def get_next(self):
+        next_url = furl(super(TryLoginView, self).get_next())
+        if self.request.is_ajax():
+            next_url.args[IS_AJAX_URLPARAM] = 1
+        return next_url.url
+
+
 class CloudUserClient(Client):
+    login_view = TryLoginView
     authenticate_view = QuickerExpirationAuthenticateView
     user_extra_data = ['cloud_id']
 

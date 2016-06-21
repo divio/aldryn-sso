@@ -4,7 +4,7 @@
         <div  class="form-group">
             <h2>{% trans "Local Development Login" %}</h2>
         </div>
-        <form action="{% url 'aldryn_localdev_login' %}" method="post">
+        <form action="{% url 'aldryn_sso_localdev_login' %}" method="post">
             {% csrf_token %}
             {{ form.non_field_errors }}
             {% with field=form.user %}
