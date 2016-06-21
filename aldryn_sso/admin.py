@@ -24,6 +24,13 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
         'user',
     )
 
+    def get_queryset(self, request):
+        return (
+            super(AldrynCloudUserAdmin, self)
+            .get_queryset(request)
+            .select_related('user')
+        )
+
     def linked_user(self, obj):
         return '<a href="{}">{}</a>'.format(
             reverse('admin:auth_user_change', args=[obj.pk]),
@@ -61,5 +68,5 @@ def admin_login_view(request, extra_context=None):
 
 
 if settings.ALDRYN_SSO_OVERIDE_ADMIN_LOGIN_VIEW:
-    # force the default admin login view to use the default django login view
+    # Force the default admin login view to use the default django login view.
     admin.site.login = admin_login_view
