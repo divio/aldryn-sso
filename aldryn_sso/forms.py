@@ -2,13 +2,14 @@
 from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model, load_backend
-from django.contrib.auth.forms import UserCreationForm
+import django.contrib.auth.forms
+from django.utils.translation import ugettext_lazy as _
 
 
 User = get_user_model()
 
 
-class CreateUserForm(UserCreationForm):
+class CreateUserForm(django.contrib.auth.forms.UserCreationForm):
 
     is_superuser = forms.BooleanField(initial=True, required=False)
 
@@ -58,3 +59,34 @@ class LoginAsForm(forms.Form):
             message = 'Unable to login as %(username)s' % {'username': user.username}
             raise forms.ValidationError(message)
         return self.cleaned_data
+
+
+class AuthenticationForm(django.contrib.auth.forms.AuthenticationForm):
+    error_messages = (
+        django.contrib.auth.forms.AuthenticationForm.error_messages.copy()
+    )
+    error_messages['invalid_login_sso_hint'] = _(
+        'Your Aldryn Account credentials will not work here, press the '
+        '"Sign in with Aldryn" button instead.'
+    )
+
+    def clean(self):
+        try:
+            super(AuthenticationForm, self).clean()
+        except forms.ValidationError as e:
+            if (
+                settings.ALDRYN_SSO_ENABLE_SSO_LOGIN and
+                e.code == 'invalid_login'
+            ):
+                raise forms.ValidationError([
+                    e,
+                    forms.ValidationError(
+                        self.error_messages['invalid_login_sso_hint'],
+                        code='invalid_login_sso_hint',
+                    )
+                ])
+            else:
+                raise e
+        return self.cleaned_data
+
+

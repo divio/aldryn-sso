@@ -4,7 +4,6 @@ from django.conf import settings
 import django.contrib.auth
 import django.contrib.auth.views
 from django.core.urlresolvers import reverse
-from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url, render_to_response
 from django.template import RequestContext
@@ -14,7 +13,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import CreateView
 
-from .forms import CreateUserForm, LoginAsForm
+from .forms import CreateUserForm, LoginAsForm, AuthenticationForm
 
 
 def get_shared_context():
@@ -32,9 +31,9 @@ def get_shared_context():
         if key == 'enable_login_form':
             context['aldryn_sso_login_form'] = AuthenticationForm()
         elif key == 'enable_localdev':
+            context['aldryn_sso_localdev_login_as_form'] = LoginAsForm()
     if not context['aldryn_sso_enable_sso_login']:
         context['aldryn_sso_enable_auto_sso_login'] = False
-            context['aldryn_sso_localdev_login_as_form'] = LoginAsForm()
     return context
 
 
@@ -106,6 +105,7 @@ class CreateUserView(CreateView):
 @csrf_protect
 @never_cache
 def login(request, **kwargs):
+    kwargs['authentication_form'] = AuthenticationForm
     extra_context = kwargs.get('extra_context', {})
     extra_context.update(get_shared_context())
     kwargs['extra_context'] = extra_context
