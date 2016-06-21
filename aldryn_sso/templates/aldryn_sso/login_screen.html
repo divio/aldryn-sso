@@ -11,7 +11,7 @@
         <div class="spacer-lg"></div>
         <div class="row">
             <div class="col-md-12 col-md-offset-6 col-sm-16 col-sm-offset-4">
-                <div class="sso-login-screen hidden">
+                <div class="sso-login-screen{% if aldryn_sso_enable_auto_sso_login %} hidden{% endif %}">
                     {% if aldryn_sso_enable_localdev %}
                         {% with form=aldryn_sso_localdev_login_as_form %}
                             {% include 'aldryn_sso/includes/localdev_login_form.html' %}
@@ -52,13 +52,15 @@
                     {% endif %}
                 </div>
 
-                <div class="text-center sso-login-loader">
-                    <div class="content-loading">
-                        <div class="circle"></div>
-                        <div class="circle-inside"></div>
-                        <div class="logo sso-logo" style="background-image: url({% static 'aldryn_sso/img/loader.svg' %});"></div>
+                {% if aldryn_sso_enable_auto_sso_login %}
+                    <div class="text-center sso-login-loader">
+                        <div class="content-loading">
+                            <div class="circle"></div>
+                            <div class="circle-inside"></div>
+                            <div class="logo sso-logo" style="background-image: url({% static 'aldryn_sso/img/loader.svg' %});"></div>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
         </div>
     </div>
