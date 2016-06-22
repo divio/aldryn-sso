@@ -20,19 +20,22 @@
             xhr.withCredentials = true;
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.onreadystatechange = handleResponse;
-            xhr.send(null);
+            xhr.send();
 
             function handleResponse() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    if (JSON.parse(xhr.response).is_authenticated === true) {
-                        location.reload();
+                if (xhr.readyState === 4) {
+                    xhr.onreadystatechange = null;
+
+                    if (xhr.status === 200) {
+                        if (JSON.parse(xhr.response).is_authenticated === true) {
+                            document.location.reload(true);
+                        }
+                    } else {
+                        // It is very likely that the request was redirected to the
+                        // login form on the sso server and we got a CORS error.
+                        // That is ok, it just means we're not logged in there yet.
+                        showLoginButton();
                     }
-                } else {
-                    // It is very likely that the request was redirected to the
-                    // login form on the sso server and we got a CORS error.
-                    // That is ok, it just means we're not logged in there yet.
-                    console.log('could not log in. probably the user is not logged in on the sso server yet.');
-                    showLoginButton();
                 }
             }
 
