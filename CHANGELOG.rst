@@ -2,6 +2,11 @@ CHANGELOG
 =========
 
 
+1.1.3 (2016-06-23)
+------------------
+
+* fix css linking non-existing files (fails with manifest static file storage)
+
 1.1.2 (2016-06-22)
 ------------------
 
