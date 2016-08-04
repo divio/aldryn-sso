@@ -17,7 +17,7 @@ if getattr(settings, 'ALDRYN_SSO_ENABLE_LOCALDEV', False):
 urlpatterns += patterns(
     '',
     url(
-        r'^login/$',
+        r'^aldryn_sso/login/$',
         login,
         kwargs=dict(
             template_name='aldryn_sso/login_screen.html',
@@ -25,7 +25,7 @@ urlpatterns += patterns(
         name='aldryn_sso_login',
     ),
     url(
-        r'^logout/$',
+        r'^aldryn_sso/logout/$',
         auth_views.logout,
         name='aldryn_sso_logout',
     )
