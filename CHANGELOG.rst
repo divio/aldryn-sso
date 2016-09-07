@@ -1,10 +1,10 @@
 CHANGELOG
 =========
 
-1.1.3 (2016-09-07)
+1.1.4 (2016-09-07)
 -------------------
 
-* Correctly enforce login for URLs conaining locale identifiers with territory codes.
+* Correctly enforce login for URLs containing locale identifiers with territory codes.
 
 
 1.1.3 (2016-06-23)
