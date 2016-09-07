@@ -40,7 +40,7 @@ class AccessControlMiddleware(object):
             return path
         # strip the language prefix by getting the length of the language
         # then slice the path
-        return "/" + "/".join(path.split("/")[len(language_prefix):])
+        return "/" + "/".join(path.split("/")[2:])
 
     def is_white_list_url(self, request):
         """
