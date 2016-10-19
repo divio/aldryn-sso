@@ -1,8 +1,8 @@
 CHANGELOG
 =========
 
-next
-----
+1.1.5 (2016-10-19)
+------------------
 
 * add optional basic auth protection
 
