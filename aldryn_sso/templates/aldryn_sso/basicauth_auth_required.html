@@ -11,56 +11,7 @@
         <div class="spacer-lg"></div>
         <div class="row">
             <div class="col-md-12 col-md-offset-6 col-sm-16 col-sm-offset-4">
-                <div class="sso-login-screen{% if aldryn_sso_enable_auto_sso_login %} hidden{% endif %}">
-                    {% if aldryn_sso_enable_localdev %}
-                        {% with form=aldryn_sso_localdev_login_as_form %}
-                            {% include 'aldryn_sso/includes/localdev_login_form.html' %}
-                        {% endwith %}
-                    {% endif %}
-                    {% if aldryn_sso_enable_login_form or aldryn_sso_enable_sso_login %}
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                {% if aldryn_sso_enable_login_form %}
-                                    {% with form=form|default:aldryn_sso_login_form %}
-                                        {% include 'aldryn_sso/includes/login_form.html' %}
-                                    {% endwith %}
-                                {% endif %}
-                                {% if aldryn_sso_enable_login_form and aldryn_sso_enable_sso_login %}
-                                    <div class="strikethrough-block">
-                                        <hr>
-                                        <div class="text-center">
-                                            <span class="line-text">{% trans "OR" %}</span>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                {% if aldryn_sso_enable_sso_login %}
-                                    <div class="spacer"></div>
-                                    {% include 'aldryn_sso/includes/sso_login_button.html' %}
-                                {% endif %}
-                            </div>
-                            <div class="spacer"></div>
-                        </div>
-                    {% endif %}
-                    {% if not aldryn_sso_enable_localdev and not aldryn_sso_enable_login_form and not aldryn_sso_enable_sso_login %}
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">Improperly Configured</div>
-                            <h2 class="text-warning"></h2>
-                            <div class="panel-body">
-                                No login methods configured. Please configure at least one method.<br/><br/>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-
-                {% if aldryn_sso_enable_auto_sso_login %}
-                    <div class="text-center sso-login-loader">
-                        <div class="content-loading">
-                            <div class="circle"></div>
-                            <div class="circle-inside"></div>
-                            <div class="logo sso-logo" style="background-image: url({% static 'aldryn_sso/img/loader.svg' %});"></div>
-                        </div>
-                    </div>
-                {% endif %}
+                This site requires (basic auth) authorization to view. Please refresh your browser to see the login prompt again.
             </div>
         </div>
     </div>
