@@ -16,6 +16,11 @@ class Form(forms.BaseForm):
         from aldryn_addons.utils import boolean_ish
         from aldryn_addons.utils import djsenv
 
+        def boolean_ish_or(value, or_values=()):
+            if value in or_values:
+                return value
+            return boolean_ish(value)
+
         env = partial(djsenv, settings=settings)
 
         settings['ALDRYN_SSO_HIDE_USER_MANAGEMENT'] = data['hide_user_management']
@@ -51,10 +56,13 @@ class Form(forms.BaseForm):
             )
         )
 
-        settings['ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN'] = boolean_ish(
+        settings['ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN'] = boolean_ish_or(
             env(
                 'ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN',
                 default=env('STAGE') == 'test',
+            ),
+            or_values=(
+                'basicauth',
             )
         )
 
@@ -84,8 +92,19 @@ class Form(forms.BaseForm):
             if not settings['SSO_DSN']:
                 raise ImproperlyConfigured(
                     'ALDRYN_SSO_ENABLE_SSO_LOGIN is True, but no SSO_DSN is set.')
-
-        if settings['ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN']:
+        if settings['ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN'] == 'basicauth':
+            basicauth_user = env('ALDRYN_SSO_BASICAUTH_USER')
+            basicauth_password = env('ALDRYN_SSO_BASICAUTH_PASSWORD')
+            if basicauth_user and basicauth_password:
+                settings['ALDRYN_SSO_BASICAUTH_USER'] = basicauth_user
+                settings['ALDRYN_SSO_BASICAUTH_PASSWORD'] = basicauth_password
+            else:
+                raise ImproperlyConfigured(
+                    'ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN set to "basicauth", but ALDRYN_SSO_BASICAUTH_USER and ALDRYN_SSO_BASICAUTH_PASSWORD not set'
+                )
+            position = settings['MIDDLEWARE_CLASSES'].index('django.contrib.auth.middleware.AuthenticationMiddleware') + 1
+            settings['MIDDLEWARE_CLASSES'].insert(position, 'aldryn_sso.middleware.BasicAuthAccessControlMiddleware')
+        elif settings['ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN']:
             position = settings['MIDDLEWARE_CLASSES'].index('django.contrib.auth.middleware.AuthenticationMiddleware') + 1
             settings['MIDDLEWARE_CLASSES'].insert(position, 'aldryn_sso.middleware.AccessControlMiddleware')
             settings['ALDRYN_SSO_LOGIN_WHITE_LIST'].extend([
@@ -94,6 +113,8 @@ class Form(forms.BaseForm):
                 reverse_lazy('aldryn_sso_localdev_login'),
                 reverse_lazy('aldryn_localdev_create_user'),
             ])
+
+        if settings['ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN']:
             settings['SHARING_VIEW_ONLY_TOKEN_KEY_NAME'] = env('SHARING_VIEW_ONLY_TOKEN_KEY_NAME')
             settings['SHARING_VIEW_ONLY_SECRET_TOKEN'] = env('SHARING_VIEW_ONLY_SECRET_TOKEN')
 
