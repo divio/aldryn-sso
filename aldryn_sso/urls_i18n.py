@@ -14,8 +14,10 @@ if getattr(settings, 'ALDRYN_SSO_ENABLE_LOCALDEV', False):
         url(r'^localdev/login-as/$', login_as_user, name='aldryn_sso_localdev_login'),
     )
 
+prefix = getattr(settings, 'ALDRYN_SSO_LOGIN_URL_PREFIX', '')
+
 urlpatterns += patterns(
-    '',
+    prefix,
     url(
         r'^login/$',
         login,
