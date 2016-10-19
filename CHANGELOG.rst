@@ -1,8 +1,14 @@
 CHANGELOG
 =========
 
+next
+----
+
+* add optional basic auth protection
+
+
 1.1.4 (2016-09-07)
--------------------
+------------------
 
 * Correctly enforce login for URLs containing locale identifiers with territory codes.
 

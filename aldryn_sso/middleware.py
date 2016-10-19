@@ -22,7 +22,7 @@ else:
     cast_to_str = str
 
 
-class AccessControlMiddleware(object):
+class BaseAccessControlMiddleware(object):
     # List of paths that will not trigger login mechanism
     # It can contain the following values:
     # /admin/.* -> regex
@@ -30,8 +30,6 @@ class AccessControlMiddleware(object):
     # /en/some-path/ -> language prefixed
     # reverse_lazy('login') -> lazy url
     LOGIN_WHITE_LIST = settings.ALDRYN_SSO_LOGIN_WHITE_LIST
-
-    login_template = 'aldryn_sso/login_screen.html'
 
     def strip_language(self, path):
         language_prefix = get_language_from_path(path)
@@ -71,18 +69,12 @@ class AccessControlMiddleware(object):
                 return True
         return False
 
-    def process_request(self, request):
-        if request.user.is_authenticated():
-            # the user is already logged in
-            return None
-        if self.is_white_list_url(request):
-            # skipping the authentication check
-            return None
-        if request.session.get(settings.SHARING_VIEW_ONLY_TOKEN_KEY_NAME):
-            # the user accessed the website with the sharing token,
-            # skipping the authentication check
-            return None
+    def sharing_view_is_already_authed(self, request):
+        return bool(
+            request.session.get(settings.SHARING_VIEW_ONLY_TOKEN_KEY_NAME)
+        )
 
+    def sharing_view_init(self, request):
         # check if the user is using the "view only sharing url"
         secret_token = settings.SHARING_VIEW_ONLY_SECRET_TOKEN
         if secret_token:
@@ -90,6 +82,26 @@ class AccessControlMiddleware(object):
             if secret_token == token:
                 request.session[settings.SHARING_VIEW_ONLY_TOKEN_KEY_NAME] = token
                 return HttpResponseRedirect('/')
+
+
+class AccessControlMiddleware(BaseAccessControlMiddleware):
+    login_template = 'aldryn_sso/login_screen.html'
+
+    def process_request(self, request):
+        if request.user.is_authenticated():
+            # the user is already logged in
+            return None
+        if self.is_white_list_url(request):
+            # skipping the authentication check
+            return None
+        if self.sharing_view_is_already_authed(request):
+            # the user accessed the website with the sharing token,
+            # skipping the authentication check
+            return None
+        sharing_view_response = self.sharing_view_init(request)
+        if sharing_view_response:
+            return sharing_view_response
+
         return self.render_login_page(request)
 
     def render_login_page(self, request):
@@ -98,3 +110,46 @@ class AccessControlMiddleware(object):
             urlencode(dict(next=request.path_info)),
         )
         return HttpResponseRedirect(login_url)
+
+
+class BasicAuthAccessControlMiddleware(BaseAccessControlMiddleware):
+    def unauthed(self, request):
+        response = TemplateResponse(
+            request=request,
+            template='aldryn_sso/basicauth_auth_required.html',
+            content_type='text/html',
+
+        )
+        response['WWW-Authenticate'] = 'Basic realm="Protected"'
+        response.status_code = 401
+        return response
+
+    def process_request(self, request):
+        if self.is_white_list_url(request):
+            # skipping the authentication check
+            return None
+        if self.sharing_view_is_already_authed(request):
+            # the user accessed the website with the sharing token,
+            # skipping the authentication check
+            return None
+        sharing_view_response = self.sharing_view_init(request)
+        if sharing_view_response:
+            return sharing_view_response
+
+        if not 'HTTP_AUTHORIZATION' in request.META:
+            return self.unauthed(request)
+        else:
+            authentication = request.META['HTTP_AUTHORIZATION']
+            (authmeth, auth) = authentication.split(' ', 1)
+            if 'basic' != authmeth.lower():
+                return self.unauthed(request)
+            auth = auth.strip().decode('base64')
+            username, password = auth.split(':', 1)
+            if (
+                username == settings.ALDRYN_SSO_BASICAUTH_USER and
+                password == settings.ALDRYN_SSO_BASICAUTH_PASSWORD
+            ):
+                return
+
+            return self.unauthed(request)
+
