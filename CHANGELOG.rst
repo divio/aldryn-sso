@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+1.1.6 (2016-10-19)
+------------------
+
+* make url prefix of sso login/logout configurable through ``ALDRYN_SSO_LOGIN_URL_PREFIX``
+* fix: add missing migration
+* remove deprecated usage of ``pattern`` in urls
+
+
 1.1.5 (2016-10-19)
 ------------------
 
