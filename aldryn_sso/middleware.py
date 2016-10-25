@@ -5,6 +5,7 @@ Access Control Middleware
 import logging
 import re
 import sys
+import base64
 
 from django.conf import settings
 from django.core.urlresolvers import NoReverseMatch, reverse
@@ -143,7 +144,7 @@ class BasicAuthAccessControlMiddleware(BaseAccessControlMiddleware):
             (authmeth, auth) = authentication.split(' ', 1)
             if 'basic' != authmeth.lower():
                 return self.unauthed(request)
-            auth = auth.strip().decode('base64')
+            auth = base64.b64decode(auth.strip())
             username, password = auth.split(':', 1)
             if (
                 username == settings.ALDRYN_SSO_BASICAUTH_USER and
