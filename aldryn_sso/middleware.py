@@ -145,6 +145,8 @@ class BasicAuthAccessControlMiddleware(BaseAccessControlMiddleware):
             if 'basic' != authmeth.lower():
                 return self.unauthed(request)
             auth = base64.b64decode(auth.strip())
+            if isinstance(auth, bytes):
+                auth = auth.decode()
             username, password = auth.split(':', 1)
             if (
                 username == settings.ALDRYN_SSO_BASICAUTH_USER and
