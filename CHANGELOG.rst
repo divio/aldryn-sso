@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.1.7 (2016-10-26)
+------------------
+
+* fix python3 issue in basic auth middleware
+
+
 1.1.6 (2016-10-19)
 ------------------
 
