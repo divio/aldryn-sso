@@ -66,8 +66,8 @@ class AuthenticationForm(django.contrib.auth.forms.AuthenticationForm):
         django.contrib.auth.forms.AuthenticationForm.error_messages.copy()
     )
     error_messages['invalid_login_sso_hint'] = _(
-        'Your Aldryn Account credentials will not work here, press the '
-        '"Sign in with Aldryn" button instead.'
+        'Your Divio Account credentials will not work here, press the '
+        '"Sign in with Divio Account" button instead.'
     )
 
     def clean(self):
