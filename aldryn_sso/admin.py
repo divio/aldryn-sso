@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from django.template.response import TemplateResponse
-from .models import AldrynSSOUser
+
+from .models import AldrynCloudUser
 
 
 class AldrynCloudUserAdmin(admin.ModelAdmin):
@@ -44,7 +45,7 @@ if settings.ALDRYN_SSO_HIDE_USER_MANAGEMENT:
     admin.site.unregister(User)
     admin.site.unregister(Group)
 else:
-    admin.site.register(AldrynSSOUser, AldrynCloudUserAdmin)
+    admin.site.register(AldrynCloudUser, AldrynCloudUserAdmin)
 
 
 original_admin_login_view = admin.site.login
