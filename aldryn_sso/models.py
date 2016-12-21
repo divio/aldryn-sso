@@ -27,15 +27,3 @@ class AldrynCloudUser(models.Model):
     class Meta:
         verbose_name = 'Aldryn SSO user'
         verbose_name_plural = 'Aldryn SSO users'
-
-
-class AldrynSSOUser(AldrynCloudUser):
-    """
-    This is a Proxy model, so that we can change app_label and have admin show
-    it together with the django.contrib.auth models.
-    """
-    class Meta:
-        proxy = True
-        app_label = 'auth'
-        verbose_name = AldrynCloudUser._meta.verbose_name
-        verbose_name_plural = AldrynCloudUser._meta.verbose_name_plural
