@@ -1,8 +1,14 @@
 CHANGELOG
 =========
 
+1.1.11 (2016-12-21)
+-------------------
+
+* Removed the ``AldrynSSOUser`` proxy model to avoid migration issues.
+
+
 1.1.10 (2016-12-02)
-------------------
+-------------------
 
 * fix narrow font and button color
 
