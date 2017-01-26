@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.1.12 (2017-01-26)
+-------------------
+
+* Redirect to same url after sharing token session init
+
+
 1.1.11 (2016-12-21)
 -------------------
 
