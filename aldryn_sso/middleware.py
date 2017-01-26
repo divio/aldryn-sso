@@ -82,7 +82,7 @@ class BaseAccessControlMiddleware(object):
             token = request.GET.get(settings.SHARING_VIEW_ONLY_TOKEN_KEY_NAME, None)
             if secret_token == token:
                 request.session[settings.SHARING_VIEW_ONLY_TOKEN_KEY_NAME] = token
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect(request.get_full_path())
 
 
 class AccessControlMiddleware(BaseAccessControlMiddleware):
