@@ -10,6 +10,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 from .managers import AldrynCloudUserManager
 
+
 @python_2_unicode_compatible
 class AldrynCloudUser(models.Model):
     cloud_id = models.PositiveIntegerField(unique=True)
