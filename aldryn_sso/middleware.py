@@ -14,6 +14,11 @@ from django.template.response import TemplateResponse
 from django.utils.http import urlencode
 from django.utils.translation import get_language_from_path
 
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    class MiddlewareMixin(object): pass  # NOQA
+
 
 logger = logging.getLogger('aldryn-sso')
 
@@ -23,7 +28,7 @@ else:
     cast_to_str = str
 
 
-class BaseAccessControlMiddleware(object):
+class BaseAccessControlMiddleware(MiddlewareMixin):
     # List of paths that will not trigger login mechanism
     # It can contain the following values:
     # /admin/.* -> regex
@@ -155,4 +160,3 @@ class BasicAuthAccessControlMiddleware(BaseAccessControlMiddleware):
                 return
 
             return self.unauthed(request)
-

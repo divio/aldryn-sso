@@ -88,5 +88,3 @@ class AuthenticationForm(django.contrib.auth.forms.AuthenticationForm):
             else:
                 raise e
         return self.cleaned_data
-
-
