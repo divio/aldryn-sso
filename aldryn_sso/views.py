@@ -5,7 +5,7 @@ import django.contrib.auth
 import django.contrib.auth.views
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import resolve_url, render_to_response
+from django.shortcuts import resolve_url, render
 from django.template import RequestContext
 from django.utils.http import is_safe_url, urlencode
 from django.views.decorators.cache import never_cache
@@ -76,11 +76,7 @@ def login_as_user(request, next_page=None):
             django.contrib.auth.REDIRECT_FIELD_NAME: next_page
         }
         context.update(get_shared_context())
-        response = render_to_response(
-            'aldryn_sso/login_screen.html',
-            context,
-            context_instance=RequestContext(request)
-        )
+        response = render(request, 'aldryn_sso/login_screen.html', context)
     return response
 
 
