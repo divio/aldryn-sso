@@ -1,12 +1,16 @@
 {% extends "aldryn_sso/base.html" %}
 {% load i18n admin_static %}
 
-{% block page_title %}{% if request.site.name %}{{ request.site.name }} {% endif %}Sign in{% endblock page_title %}
+{% block page_title %}{% if request.site.name %}{{ request.site.name }} {% endif %}{% trans "Sign in" %}{% endblock page_title %}
 
 {% block content %}
     <div class="container">
         <div class="marketing-heading text-center">
-            <h1>Sign in to {% if request.site.name %}<strong>{{ request.site.name }}</strong>{% else %}your website{% endif %}</h1>
+            {% if request.site.name %}
+                <h1>{% blocktrans with site_name=request.site.name %}Sign in to <strong>{{ site_name }}</strong>{% endblocktrans %}</h1>
+            {% else %}
+                <h1>{% trans "Sign in to your website" %}</h1>
+            {% endif %}
         </div>
         <div class="spacer-lg"></div>
         <div class="row">
@@ -43,10 +47,10 @@
                     {% endif %}
                     {% if not aldryn_sso_enable_localdev and not aldryn_sso_enable_login_form and not aldryn_sso_enable_sso_login %}
                         <div class="panel panel-warning">
-                            <div class="panel-heading">Improperly Configured</div>
+                            <div class="panel-heading">{% trans "Improperly Configured" %}</div>
                             <h2 class="text-warning"></h2>
                             <div class="panel-body">
-                                No login methods configured. Please configure at least one method.<br/><br/>
+                                {% trans "No login methods configured. Please configure at least one method." %}<br/><br/>
                             </div>
                         </div>
                     {% endif %}

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from django.template.response import TemplateResponse
+from django.utils.translation import ugettext_lazy as _
 
 from .models import AldrynCloudUser
 
@@ -37,7 +38,7 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
             reverse('admin:auth_user_change', args=[obj.pk]),
             obj.user,
         )
-    linked_user.short_description = 'user'
+    linked_user.short_description = _('user')
     linked_user.allow_tags = True
     linked_user.admin_order_field = 'user'
 
