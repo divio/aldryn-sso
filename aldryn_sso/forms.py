@@ -3,7 +3,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model, load_backend
 import django.contrib.auth.forms
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext, ugettext_lazy as _
 
 
 User = get_user_model()
@@ -56,8 +56,8 @@ class LoginAsForm(forms.Form):
                 break
 
         if not hasattr(user, 'backend'):
-            message = 'Unable to login as %(username)s' % {'username': user.username}
-            raise forms.ValidationError(message)
+            message = ugettext('Unable to login as %(username)s')
+            raise forms.ValidationError(message % {'username': user.username})
         return self.cleaned_data
 
 

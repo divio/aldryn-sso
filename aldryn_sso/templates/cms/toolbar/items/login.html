@@ -1,3 +1,4 @@
+{% load i18n %}
 {# This works because "as" fails silently #}
 {% url 'aldryn_sso_login' as aldryn_sso_login_url %}
 
@@ -9,6 +10,6 @@
 
 {% if aldryn_sso_login_url %}
     <div class="cms_toolbar-item cms_toolbar-item-buttons cms-toolbar-item cms-toolbar-item-buttons">
-        <a href="{{ aldryn_sso_login_url }}?next={{ request.path }}" class="cms_btn cms_btn-active cms_btn-action cms-btn cms-btn-action">Login</a>
+        <a href="{{ aldryn_sso_login_url }}?next={{ request.path }}" class="cms_btn cms_btn-active cms_btn-action cms-btn cms-btn-action">{% trans "Login" %}</a>
     </div>
 {% endif %}

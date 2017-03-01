@@ -6,7 +6,6 @@ import django.contrib.auth.views
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url, render
-from django.template import RequestContext
 from django.utils.http import is_safe_url, urlencode
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
