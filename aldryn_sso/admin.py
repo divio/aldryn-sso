@@ -38,7 +38,7 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
             reverse('admin:auth_user_change', args=[obj.pk]),
             obj.user,
         )
-    linked_user.short_description = _('user')
+    linked_user.short_description = _('User')
     linked_user.allow_tags = True
     linked_user.admin_order_field = 'user'
 
