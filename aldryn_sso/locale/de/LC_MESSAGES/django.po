@@ -8,8 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-01 13:57-0500\n"
+"POT-Creation-Date: 2017-03-02 10:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: cbertschy <christian.bertschy@divio.ch>, 2017\n"
 "Language-Team: German (https://www.transifex.com/divio/teams/58664/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,109 +18,108 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:41
-msgid "user"
-msgstr ""
+#: admin.py:41 models.py:23
+msgid "User"
+msgstr "Benutzer"
 
 #: apps.py:8
 msgid "Aldryn SSO"
-msgstr ""
+msgstr "Aldryn SSO"
 
 #: forms.py:59
 #, python-format
 msgid "Unable to login as %(username)s"
-msgstr ""
+msgstr "Login mit %(username)s nicht möglich"
 
 #: forms.py:69
 msgid ""
 "Your Divio Account credentials will not work here, press the \"Sign in with "
 "Divio Account\" button instead."
 msgstr ""
+"Ihre Zugangsdaten für den Divio-Account funktionieren hier leider nicht, "
+"benutzen Sie stattdessen den \"Mit Divio-Account anmelden\" Button."
 
 #: models.py:18
 msgid "Cloud ID"
-msgstr ""
-
-#: models.py:23
-msgid "User"
-msgstr ""
+msgstr "Cloud ID"
 
 #: models.py:33
 msgid "Aldryn SSO user"
-msgstr ""
+msgstr "Aldryn SSO-Benutzer"
 
 #: models.py:34
 msgid "Aldryn SSO users"
-msgstr ""
+msgstr "Aldryn SSO-Benutzer"
 
 #: templates/aldryn_sso/admin_non_staff.html:4
 msgid "Home"
-msgstr ""
+msgstr "Startseite"
 
 #: templates/aldryn_sso/admin_non_staff.html:8
 msgid "Only staff users can access the admin area."
-msgstr ""
+msgstr "Es können nur berechtigte Benutzer auf die Administration zugreifen."
 
 #: templates/aldryn_sso/admin_non_staff.html:9
 msgid "You are logged in as:"
-msgstr ""
+msgstr "Eingeloggt als:"
 
 #: templates/aldryn_sso/admin_non_staff.html:10
 msgid "Log out"
-msgstr ""
+msgstr "Ausloggen"
 
 #: templates/aldryn_sso/admin_non_staff.html:11
 msgid "View site"
-msgstr ""
+msgstr "Seite ansehen"
 
 #: templates/aldryn_sso/create_user.html:8
 msgid "Create user"
-msgstr ""
+msgstr "Benutzer erstellen"
 
 #: templates/aldryn_sso/create_user.html:47
 msgid "Create"
-msgstr ""
+msgstr "Erstellen"
 
 #: templates/aldryn_sso/includes/localdev_login_form.html:5
 msgid "Local Development Login"
-msgstr ""
+msgstr "Login lokale Entwicklung"
 
 #: templates/aldryn_sso/includes/localdev_login_form.html:13
 msgid "Add user"
-msgstr ""
+msgstr "Benutzer hinzufügen"
 
 #: templates/aldryn_sso/includes/localdev_login_form.html:34
 #: templates/aldryn_sso/includes/login_form.html:50
 #: templates/aldryn_sso/login_screen.html:4
+#: templates/cms/toolbar/items/login.html:13
 msgid "Sign in"
-msgstr ""
+msgstr "Anmelden"
 
 #: templates/aldryn_sso/includes/login_form.html:6
-#: templates/cms/toolbar/items/login.html:13
 msgid "Login"
-msgstr ""
+msgstr "Einloggen"
 
 #: templates/aldryn_sso/includes/sso_login_button.html:5
 msgid "Sign in with Divio Account"
-msgstr ""
+msgstr "Mit Divio-Account anmelden"
 
 #: templates/aldryn_sso/login_screen.html:10
 #, python-format
 msgid "Sign in to <strong>%(site_name)s</strong>"
-msgstr ""
+msgstr "Anmelden auf <strong>%(site_name)s</strong>"
 
 #: templates/aldryn_sso/login_screen.html:12
 msgid "Sign in to your website"
-msgstr ""
+msgstr "Auf der Website anmelden"
 
 #: templates/aldryn_sso/login_screen.html:36
 msgid "OR"
-msgstr ""
+msgstr "ODER"
 
 #: templates/aldryn_sso/login_screen.html:50
 msgid "Improperly Configured"
-msgstr ""
+msgstr "Ungültige Konfiguration"
 
 #: templates/aldryn_sso/login_screen.html:53
 msgid "No login methods configured. Please configure at least one method."
 msgstr ""
+"Keine Login-Methode konfiguriert. Es muss mindestens eine definiert sein."

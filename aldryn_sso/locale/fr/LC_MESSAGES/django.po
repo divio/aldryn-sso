@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-01 13:57-0500\n"
+"POT-Creation-Date: 2017-03-02 10:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language-Team: French (https://www.transifex.com/divio/teams/58664/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: admin.py:41
-msgid "user"
+#: admin.py:41 models.py:23
+msgid "User"
 msgstr ""
 
 #: apps.py:8
@@ -38,10 +38,6 @@ msgstr ""
 
 #: models.py:18
 msgid "Cloud ID"
-msgstr ""
-
-#: models.py:23
-msgid "User"
 msgstr ""
 
 #: models.py:33
@@ -91,11 +87,11 @@ msgstr ""
 #: templates/aldryn_sso/includes/localdev_login_form.html:34
 #: templates/aldryn_sso/includes/login_form.html:50
 #: templates/aldryn_sso/login_screen.html:4
+#: templates/cms/toolbar/items/login.html:13
 msgid "Sign in"
 msgstr ""
 
 #: templates/aldryn_sso/includes/login_form.html:6
-#: templates/cms/toolbar/items/login.html:13
 msgid "Login"
 msgstr ""
 
