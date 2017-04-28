@@ -46,6 +46,23 @@ class BaseAccessControlMiddleware(MiddlewareMixin):
         # then slice the path
         return "/" + "/".join(path.split("/")[2:])
 
+    def can_skip_check(self, request):
+        if getattr(request, '_login_exempt', False):
+            # Apps can bypass auth check by setting the
+            # _login_exempt attribute on the request to True.
+            # This is useful for tests that make use of a fake request.
+            return True
+
+        if self.is_white_list_url(request):
+            # skipping the authentication check
+            return True
+
+        if self.sharing_view_is_already_authed(request):
+            # the user accessed the website with the sharing token,
+            # skipping the authentication check
+            return True
+        return False
+
     def is_white_list_url(self, request):
         """
         Returns true if the request path matches a configured
@@ -97,14 +114,12 @@ class AccessControlMiddleware(BaseAccessControlMiddleware):
         if request.user.is_authenticated():
             # the user is already logged in
             return None
-        if self.is_white_list_url(request):
-            # skipping the authentication check
+
+        if self.can_skip_check(request):
             return None
-        if self.sharing_view_is_already_authed(request):
-            # the user accessed the website with the sharing token,
-            # skipping the authentication check
-            return None
+
         sharing_view_response = self.sharing_view_init(request)
+
         if sharing_view_response:
             return sharing_view_response
 
@@ -119,6 +134,7 @@ class AccessControlMiddleware(BaseAccessControlMiddleware):
 
 
 class BasicAuthAccessControlMiddleware(BaseAccessControlMiddleware):
+
     def unauthed(self, request):
         response = TemplateResponse(
             request=request,
@@ -131,14 +147,11 @@ class BasicAuthAccessControlMiddleware(BaseAccessControlMiddleware):
         return response
 
     def process_request(self, request):
-        if self.is_white_list_url(request):
-            # skipping the authentication check
+        if self.can_skip_check(request):
             return None
-        if self.sharing_view_is_already_authed(request):
-            # the user accessed the website with the sharing token,
-            # skipping the authentication check
-            return None
+
         sharing_view_response = self.sharing_view_init(request)
+
         if sharing_view_response:
             return sharing_view_response
 
