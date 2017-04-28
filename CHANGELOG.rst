@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+1.1.15 (2017-04-28)
+-------------------
+
+* Added support for a ``_login_exempt`` attribute on the request.
+  When set to ``True``, this attribute prevents the request from going through
+  the authentication check.
+
+
 1.1.14 (2017-03-02)
 -------------------
 
