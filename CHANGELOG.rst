@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.1.16 (2017-05-28)
+-------------------
+
+* Added a missing migration for a minor non-schema related change
+
+
 1.1.15 (2017-04-28)
 -------------------
 
