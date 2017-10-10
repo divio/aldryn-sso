@@ -100,7 +100,9 @@ class CreateUserView(CreateView):
 @csrf_protect
 @never_cache
 def login(request, **kwargs):
-    kwargs['authentication_form'] = AuthenticationForm
+    # Let's make it a bit more flexible
+    if 'authentication_form' not in kwargs:
+        kwargs['authentication_form'] = AuthenticationForm
     extra_context = kwargs.get('extra_context', {})
     extra_context.update(get_shared_context())
     kwargs['extra_context'] = extra_context
