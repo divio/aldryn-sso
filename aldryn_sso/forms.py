@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model, load_backend
 import django.contrib.auth.forms
 from django.utils.translation import ugettext, ugettext_lazy as _
 
+from . import invalid_login_attempts
 
 User = get_user_model()
 
@@ -61,19 +62,45 @@ class LoginAsForm(forms.Form):
         return self.cleaned_data
 
 
-class AuthenticationForm(django.contrib.auth.forms.AuthenticationForm):
+class AuthenticationForm(invalid_login_attempts.InvalidLoginAttemptsMixin,
+                         django.contrib.auth.forms.AuthenticationForm):
+    # NOTE: AuthenticationForm class actually do receive request and it's under
+    # "self.request"
     error_messages = (
         django.contrib.auth.forms.AuthenticationForm.error_messages.copy()
     )
+    # Overriding "invalid_login" error message
+    error_messages['invalid_login'] = _('Username or password is invalid')
     error_messages['invalid_login_sso_hint'] = _(
         'Your Divio Account credentials will not work here, press the '
         '"Sign in with Divio Account" button instead.'
     )
+    error_messages['too_many_attempts'] = _('There has been too many failed attempts. Please wait %s min.') % (
+        invalid_login_attempts.INVALID_LOGIN_BLOCK_EXPIRATION_MIN,
+    )
+
+    def confirm_login_allowed(self, user):
+        # super method invocation would check whether account is active or
+        # inactive. But we don't want to give any clues about what's wrong with
+        # logging in. So I'm simply changing that to "invalid_login".
+        if not user.is_active:
+            raise forms.ValidationError(
+                self.error_messages['invalid_login'],
+                code='invalid_login',
+            )
 
     def clean(self):
+        if self.invalid_login_counter.too_many_attempts():
+            raise forms.ValidationError(
+                self.error_messages['too_many_attempts'],
+                code='too_many_attempts',
+            )
+
         try:
             super(AuthenticationForm, self).clean()
+            self.invalid_login_counter.reset()
         except forms.ValidationError as e:
+            self.invalid_login_counter.incr()
             if (
                 settings.ALDRYN_SSO_ENABLE_SSO_LOGIN and
                 e.code == 'invalid_login'

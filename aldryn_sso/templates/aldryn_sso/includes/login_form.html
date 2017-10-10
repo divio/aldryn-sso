@@ -36,6 +36,9 @@
         </div>
         <div class="spacer-xs"></div>
         <div class="help-text">
+            {% comment %}TODO: put me in proper place. On this condition basis even entire login screen can be hidden
+            {% if form.invalid_login_counter.too_many_attempts %}{{ form.error_messages.too_many_attempts }}{% endif %}
+            {% endcomment %}
             {% if form.password.errors %}
                 {% for error in form.password.errors %}
                     <span class="text-danger">{{ error }}</span>
