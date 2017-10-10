@@ -8,6 +8,20 @@ class Form(forms.BaseForm):
         required=False,
         initial=False,
     )
+    max_invalid_login_attempts = forms.NumberField(
+        'Max number of failed login attempts.',
+        required=False,
+        initial=5,
+        help_text=(
+            'Max number of failed login attempts before '
+            'it will be blocked for few minutes. Type 0 to turn it off.'
+        ),
+    )
+    invalid_login_block_expiration_min = forms.NumberField(
+        'Number of minutes to block logging-in for user who exceeded max failed login attempts (15 min by default).',
+        required=False,
+        initial=15,
+    )
 
     def to_settings(self, data, settings):
         from functools import partial
@@ -80,6 +94,16 @@ class Form(forms.BaseForm):
             settings['INSTALLED_APPS'].index('django.contrib.admin'),
             'aldryn_sso'
         )
+
+        # Failed login
+        settings['ALDRYN_SSO_INVALID_LOGIN_MAX_ATTEMPTS'] = env(
+            'ALDRYN_SSO_INVALID_LOGIN_MAX_ATTEMPTS',
+            data['max_invalid_login_attempts'])
+        settings['ALDRYN_SSO_INVALID_LOGIN_BLOCK_EXPIRATION_MIN'] = env(
+            'ALDRYN_SSO_INVALID_LOGIN_BLOCK_EXPIRATION_MIN',
+            data['invalid_login_block_expiration_min'])
+        if settings['ALDRYN_SSO_INVALID_LOGIN_MAX_ATTEMPTS'] == 0:
+            settings['ALDRYN_SSO_INVALID_LOGIN_MAX_ATTEMPTS'] = None
 
         if settings['ALDRYN_SSO_ENABLE_SSO_LOGIN']:
             # Expire user session every day because:
