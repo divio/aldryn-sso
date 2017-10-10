@@ -78,16 +78,9 @@ class AuthenticationForm(invalid_login_attempts.InvalidLoginAttemptsMixin,
     error_messages['too_many_attempts'] = _('There has been too many failed attempts. Please wait %s min.') % (
         invalid_login_attempts.INVALID_LOGIN_BLOCK_EXPIRATION_MIN,
     )
-
-    def confirm_login_allowed(self, user):
-        # super method invocation would check whether account is active or
-        # inactive. But we don't want to give any clues about what's wrong with
-        # logging in. So I'm simply changing that to "invalid_login".
-        if not user.is_active:
-            raise forms.ValidationError(
-                self.error_messages['invalid_login'],
-                code='invalid_login',
-            )
+    # We don't want to give any clues about what's wrong with
+    # logging in so we'll simply display the same message.
+    error_messages['inactive'] = error_messages['invalid_login']
 
     def clean(self):
         if self.invalid_login_counter.too_many_attempts():
