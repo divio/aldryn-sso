@@ -47,7 +47,7 @@
         </div>
     </div>
     {% for error in form.non_field_errors %}
-        <span class="text-danger">{{ error }}</span><br/>
+        <span class="text-danger">{{ error }}</span><br/><br />
     {% endfor %}
     <input type="hidden" name="next" value="{{ next }}" />
     <input class="btn btn-marketing btn-block sso-button" type="submit" value="{% trans 'Sign in' %}">
