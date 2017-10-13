@@ -1,6 +1,23 @@
 CHANGELOG
 =========
 
+1.1.19 (2017-10-13)
+-------------------
+
+* minor fix of template (additional break line added).
+
+
+1.1.18 (2017-10-11)
+-------------------
+
+* Added ``max_invalid_login_attempts`` and
+  ``invalid_login_block_expiration_min``. Allows to setup max login
+  attepts before logging-in will be blocked for the given session for
+  configurable number of minutes. It can still be overriden via env
+  variables: ALDRYN_SSO_INVALID_LOGIN_MAX_ATTEMPTS and
+  ALDRYN_SSO_INVALID_LOGIN_BLOCK_EXPIRATION_MIN
+
+
 1.1.16 (2017-05-28)
 -------------------
 
