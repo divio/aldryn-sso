@@ -4,36 +4,41 @@ from django.conf import settings
 from django.contrib.auth import get_user_model, load_backend
 import django.contrib.auth.forms
 from django.contrib.auth.hashers import make_password
+from django.utils.text import capfirst
 from django.utils.translation import ugettext, ugettext_lazy as _
 
-User = get_user_model()
+UserModel = get_user_model()
 
 
 class CreateUserForm(forms.Form):
-    username = forms.CharField()
+    username = forms.CharField(max_length=254)
     is_superuser = forms.BooleanField(initial=True, required=False)
 
     def __init__(self, instance, *args, **kwargs):
         super(CreateUserForm, self).__init__(*args, **kwargs)
+        self.username_field = UserModel._meta.get_field(UserModel.USERNAME_FIELD)
+        if self.fields['username'].label is None:
+            self.fields['username'].label = capfirst(self.username_field.verbose_name)
+
         self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['username'].widget.attrs['placeholder'] = 'Username'
+        self.fields['username'].widget.attrs['placeholder'] = capfirst(self.username_field.verbose_name)
 
     def save(self, commit=True):
 
         user_kwargs = {
-            User.USERNAME_FIELD: self.cleaned_data.pop('username'),
+            UserModel.USERNAME_FIELD: self.cleaned_data.pop('username'),
             'password': make_password(None)
         }
 
         if self.cleaned_data.get('is_superuser', None):
-            return User.objects.create_superuser(**user_kwargs)
+            return UserModel.objects.create_superuser(**user_kwargs)
         else:
-            return User.objects.create_user(is_staff=True, **user_kwargs)
+            return UserModel.objects.create_user(is_staff=True, **user_kwargs)
 
 
 class LoginAsForm(forms.Form):
     user = forms.ModelChoiceField(
-        queryset=User.objects.filter(is_active=True, is_staff=True),
+        queryset=UserModel.objects.filter(is_active=True, is_staff=True),
         required=True,
     )
 
