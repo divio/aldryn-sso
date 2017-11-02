@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.admin.sites import NotRegistered
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.template.response import TemplateResponse
 from django.utils.translation import ugettext_lazy as _
 
 from .models import AldrynCloudUser
 
+User = get_user_model()
 
 class AldrynCloudUserAdmin(admin.ModelAdmin):
     list_display = (
@@ -43,7 +46,10 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
     linked_user.admin_order_field = 'user'
 
 if settings.ALDRYN_SSO_HIDE_USER_MANAGEMENT:
-    admin.site.unregister(User)
+    try:
+        admin.site.unregister(User)
+    except NotRegistered:
+        pass
     admin.site.unregister(Group)
 else:
     admin.site.register(AldrynCloudUser, AldrynCloudUserAdmin)

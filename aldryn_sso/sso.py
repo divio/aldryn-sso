@@ -2,7 +2,7 @@
 import json
 
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from furl import furl
 
@@ -10,6 +10,7 @@ from simple_sso.sso_client.client import Client, AuthenticateView, LoginView
 
 from .models import AldrynCloudUser
 
+User = get_user_model()
 
 ALDRYN_USER_SESSION_KEY = '_aldryn_user'
 IS_AJAX_URLPARAM = '__is_xhr_login'
@@ -68,14 +69,14 @@ class CloudUserClient(Client):
     def _get_free_username(self, original_username):
         username = original_username
         i = 1
-        while User.objects.filter(username=username).exists():
+        while User.objects.filter(**{User.USERNAME_FIELD: username}).exists():
             username = u'%s - %s' % (original_username, i)
             i += 1
         return username
 
     def _create_user(self, username, email):
         username = self._get_free_username(username)
-        return User.objects.create(username=username, email=email)
+        return User.objects.create(**{User.USERNAME_FIELD: username, User.EMAIL_FIELD:email})
 
     def build_user(self, user_data):
         extra_data = user_data.pop('extra_data')

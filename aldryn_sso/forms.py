@@ -3,41 +3,51 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model, load_backend
 import django.contrib.auth.forms
+from django.contrib.auth.hashers import make_password
+from django.utils.text import capfirst
 from django.utils.translation import ugettext, ugettext_lazy as _
 
+UserModel = get_user_model()
 
-User = get_user_model()
 
-
-class CreateUserForm(django.contrib.auth.forms.UserCreationForm):
-
+class CreateUserForm(forms.Form):
+    username = forms.CharField(max_length=254)
     is_superuser = forms.BooleanField(initial=True, required=False)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, instance, *args, **kwargs):
         super(CreateUserForm, self).__init__(*args, **kwargs)
+        self.username_field = UserModel._meta.get_field(UserModel.USERNAME_FIELD)
+        if self.fields['username'].label is None:
+            self.fields['username'].label = capfirst(self.username_field.verbose_name)
+
         self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['username'].widget.attrs['placeholder'] = 'Username'
-        del self.fields['password1']
-        del self.fields['password2']
+        self.fields['username'].widget.attrs['placeholder'] = capfirst(self.username_field.verbose_name)
 
     def save(self, commit=True):
-        # Use ModelForm save() directly
-        # to avoid any behavior coming from UserCreationForm
-        user = forms.ModelForm.save(self, commit=False)
-        user.set_unusable_password()
-        user.is_superuser = self.cleaned_data['is_superuser']
-        user.is_active = True
-        user.is_staff = True
+        # We want to use UserModel.objects.create_superuser and
+        # UserModel.objects.create_user because developers that have their own
+        # user models are likely to override them.
 
-        if commit:
+        user_kwargs = {
+            UserModel.USERNAME_FIELD: self.cleaned_data.pop('username'),
+            'password': make_password(None)
+        }
+
+        email_field = getattr(UserModel, 'EMAIL_FIELD', 'email')
+        if email_field not in user_kwargs:
+            user_kwargs[email_field] = None
+        if self.cleaned_data.get('is_superuser', None):
+            return UserModel.objects.create_superuser(**user_kwargs)
+        else:
+            user = UserModel.objects.create_user(**user_kwargs)
+            user.is_staff = True
             user.save()
-        return user
+            return user
 
 
 class LoginAsForm(forms.Form):
-
     user = forms.ModelChoiceField(
-        queryset=User.objects.filter(is_active=True, is_staff=True),
+        queryset=UserModel.objects.filter(is_active=True, is_staff=True),
         required=True,
     )
 
