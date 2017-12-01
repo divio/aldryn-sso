@@ -31,8 +31,8 @@ class CreateUserForm(forms.Form):
         }
 
         if self.cleaned_data.get('is_superuser', None):
-            if not hasattr(user_kwargs, UserModel.EMAIL_FILED):
-                user_kwargs[UserModel.EMAIL_FILED] = None
+            if not hasattr(user_kwargs, UserModel.EMAIL_FIELD):
+                user_kwargs[UserModel.EMAIL_FIELD] = None
             return UserModel.objects.create_superuser(**user_kwargs)
         else:
             return UserModel.objects.create_user(is_staff=True, **user_kwargs)
