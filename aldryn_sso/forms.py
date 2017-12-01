@@ -30,13 +30,16 @@ class CreateUserForm(forms.Form):
             'password': make_password(None)
         }
 
+        email_field = getattr(UserModel,'EMAIL_FIELD','email')
+        if not hasattr(user_kwargs, email_field):
+            user_kwargs[email_field] = None
         if self.cleaned_data.get('is_superuser', None):
-            email_field = getattr(UserModel,'EMAIL_FIELD','email')
-            if not hasattr(user_kwargs, email_field):
-                user_kwargs[email_field] = None
             return UserModel.objects.create_superuser(**user_kwargs)
         else:
-            return UserModel.objects.create_user(is_staff=True, **user_kwargs)
+            user = UserModel.objects.create_user(**user_kwargs)
+            user.is_staff = True
+            user.save()
+            return user
 
 
 class LoginAsForm(forms.Form):
