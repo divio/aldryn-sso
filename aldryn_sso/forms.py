@@ -24,16 +24,12 @@ class CreateUserForm(forms.Form):
         self.fields['username'].widget.attrs['placeholder'] = capfirst(self.username_field.verbose_name)
 
     def save(self, commit=True):
-
         user_kwargs = {
             UserModel.USERNAME_FIELD: self.cleaned_data.pop('username'),
-            'password': make_password(None)
+            'password': make_password(None),
+            'is_superuser': self.cleaned_data.get('is_superuser', None)
         }
-
-        if self.cleaned_data.get('is_superuser', None):
-            return UserModel.objects.create_superuser(**user_kwargs)
-        else:
-            return UserModel.objects.create_user(is_staff=True, **user_kwargs)
+        return UserModel.objects.create_user(is_staff=True, **user_kwargs)
 
 
 class LoginAsForm(forms.Form):
@@ -76,8 +72,8 @@ class AuthenticationForm(django.contrib.auth.forms.AuthenticationForm):
             super(AuthenticationForm, self).clean()
         except forms.ValidationError as e:
             if (
-                settings.ALDRYN_SSO_ENABLE_SSO_LOGIN and
-                e.code == 'invalid_login'
+                    settings.ALDRYN_SSO_ENABLE_SSO_LOGIN and
+                    e.code == 'invalid_login'
             ):
                 raise forms.ValidationError([
                     e,
