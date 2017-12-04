@@ -11,7 +11,12 @@ class Form(forms.BaseForm):
 
     def to_settings(self, data, settings):
         from functools import partial
-        from django.core.urlresolvers import reverse_lazy
+        try:
+            # Django>=1.10
+            from django.urls import reverse_lazy
+        except ImportError:
+            # Django<1.10
+            from django.core.urlresolvers import reverse_lazy
         from aldryn_addons.exceptions import ImproperlyConfigured
         from aldryn_addons.utils import boolean_ish
         from aldryn_addons.utils import djsenv
@@ -22,6 +27,13 @@ class Form(forms.BaseForm):
             return boolean_ish(value)
 
         env = partial(djsenv, settings=settings)
+
+        if 'MIDDLEWARE' in settings:
+            # Django>=1.10
+            MIDDLEWARE = settings['MIDDLEWARE']
+        else:
+            # Django<1.10
+            MIDDLEWARE = settings['MIDDLEWARE_CLASSES']
 
         settings['ALDRYN_SSO_HIDE_USER_MANAGEMENT'] = data['hide_user_management']
 
@@ -102,11 +114,11 @@ class Form(forms.BaseForm):
                 raise ImproperlyConfigured(
                     'ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN set to "basicauth", but ALDRYN_SSO_BASICAUTH_USER and ALDRYN_SSO_BASICAUTH_PASSWORD not set'
                 )
-            position = settings['MIDDLEWARE_CLASSES'].index('django.contrib.auth.middleware.AuthenticationMiddleware') + 1
-            settings['MIDDLEWARE_CLASSES'].insert(position, 'aldryn_sso.middleware.BasicAuthAccessControlMiddleware')
+            position = MIDDLEWARE.index('django.contrib.auth.middleware.AuthenticationMiddleware') + 1
+            MIDDLEWARE.insert(position, 'aldryn_sso.middleware.BasicAuthAccessControlMiddleware')
         elif settings['ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN']:
-            position = settings['MIDDLEWARE_CLASSES'].index('django.contrib.auth.middleware.AuthenticationMiddleware') + 1
-            settings['MIDDLEWARE_CLASSES'].insert(position, 'aldryn_sso.middleware.AccessControlMiddleware')
+            position = MIDDLEWARE.index('django.contrib.auth.middleware.AuthenticationMiddleware') + 1
+            MIDDLEWARE.insert(position, 'aldryn_sso.middleware.AccessControlMiddleware')
             settings['ALDRYN_SSO_LOGIN_WHITE_LIST'].extend([
                 reverse_lazy('simple-sso-login'),
                 reverse_lazy('aldryn_sso_login'),
