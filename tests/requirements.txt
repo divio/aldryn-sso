@@ -1,6 +1,0 @@
-Django>=1.8,<2.0
-djangocms-helper
-djangocms-admin-style
-django-cms
-aldryn-sites
-webservices[django]
