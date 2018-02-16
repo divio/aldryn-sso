@@ -1,3 +1,6 @@
 /settings.json
 .DS_STORE
 *.pyc
+.env
+*.egg-info/
+*.sqlite
