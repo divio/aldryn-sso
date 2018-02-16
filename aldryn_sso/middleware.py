@@ -10,7 +10,7 @@ import base64
 from django.conf import settings
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.http import HttpResponseRedirect
-from django.template.response import TemplateResponse
+from django.shortcuts import render
 from django.utils.http import urlencode
 from django.utils.translation import get_language_from_path
 
@@ -136,14 +136,8 @@ class AccessControlMiddleware(BaseAccessControlMiddleware):
 class BasicAuthAccessControlMiddleware(BaseAccessControlMiddleware):
 
     def unauthed(self, request):
-        response = TemplateResponse(
-            request=request,
-            template='aldryn_sso/basicauth_auth_required.html',
-            content_type='text/html',
-
-        )
+        response = render(request, 'aldryn_sso/basicauth_auth_required.html', status=401)
         response['WWW-Authenticate'] = 'Basic realm="Protected"'
-        response.status_code = 401
         return response
 
     def process_request(self, request):
@@ -155,7 +149,7 @@ class BasicAuthAccessControlMiddleware(BaseAccessControlMiddleware):
         if sharing_view_response:
             return sharing_view_response
 
-        if not 'HTTP_AUTHORIZATION' in request.META:
+        if 'HTTP_AUTHORIZATION' not in request.META:
             return self.unauthed(request)
         else:
             authentication = request.META['HTTP_AUTHORIZATION']
