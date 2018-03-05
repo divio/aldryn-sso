@@ -21,7 +21,8 @@ class AldrynCloudUser(models.Model):
         settings.AUTH_USER_MODEL,
         unique=True,
         verbose_name=_('User'),
-        related_name='aldryn_cloud_account'
+        related_name='aldryn_cloud_account',
+        on_delete=models.CASCADE,
     )
 
     objects = AldrynCloudUserManager()
