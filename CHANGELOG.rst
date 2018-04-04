@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.3.0 (unreleased)
+-------------------
+
+* Introduced Django 2.0 support
+
+
 1.2.1 (2018-02-16)
 -------------------
 

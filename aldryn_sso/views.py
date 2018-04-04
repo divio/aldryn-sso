@@ -3,7 +3,6 @@ from __future__ import absolute_import, unicode_literals
 from django.conf import settings
 import django.contrib.auth
 import django.contrib.auth.views
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url, render
 from django.utils.http import is_safe_url, urlencode
@@ -11,6 +10,8 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import CreateView
+
+from simple_sso.compat import reverse, user_is_authenticated
 
 from .forms import CreateUserForm, LoginAsForm, AuthenticationForm
 
@@ -64,7 +65,7 @@ def login_as_user(request, next_page=None):
 
     form = LoginAsForm(request.POST or None)
 
-    if request.user.is_authenticated():
+    if user_is_authenticated(request.user):
         response = HttpResponseRedirect(next_page)
     elif form.is_valid():
         django.contrib.auth.login(request, form.cleaned_data['user'])
@@ -89,7 +90,7 @@ class CreateUserView(CreateView):
         return context
 
     def get_success_url(self):
-        if self.request.user.is_authenticated():
+        if user_is_authenticated(self.request.user):
             fallback = resolve_url(settings.LOGIN_REDIRECT_URL)
         else:
             fallback = reverse('aldryn_sso_localdev_login')
@@ -110,7 +111,7 @@ def login(request, **kwargs):
         request,
         fallback=resolve_url(settings.LOGIN_REDIRECT_URL),
     )
-    if request.user.is_authenticated():
+    if user_is_authenticated(request.user):
         # already authenticated. no sense in logging in.
         return HttpResponseRedirect(next_url)
     if (
