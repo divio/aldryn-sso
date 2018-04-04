@@ -8,11 +8,12 @@ import sys
 import base64
 
 from django.conf import settings
-from django.core.urlresolvers import NoReverseMatch, reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils.http import urlencode
 from django.utils.translation import get_language_from_path
+
+from simple_sso.compat import NoReverseMatch, reverse, user_is_authenticated
 
 try:
     from django.utils.deprecation import MiddlewareMixin
@@ -111,7 +112,7 @@ class AccessControlMiddleware(BaseAccessControlMiddleware):
     login_template = 'aldryn_sso/login_screen.html'
 
     def process_request(self, request):
-        if request.user.is_authenticated():
+        if user_is_authenticated(request.user):
             # the user is already logged in
             return None
 

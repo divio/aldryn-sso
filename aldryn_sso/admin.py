@@ -5,12 +5,11 @@ from django.contrib.admin.sites import NotRegistered
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
-try:
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
 from django.template.response import TemplateResponse
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
+
+from simple_sso.compat import reverse
 
 from .models import AldrynCloudUser
 
@@ -41,11 +40,13 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
         )
 
     def linked_user(self, obj):
-        return '<a href="{}">{}</a>'.format(
+        html_link = '<a href="{}">{}</a>'.format(
             reverse('admin:auth_user_change', args=[obj.pk]),
             obj.user,
         )
+        return mark_safe(html_link)
     linked_user.short_description = _('User')
+    # This can be removed once support for django < 2.0 is dropped
     linked_user.allow_tags = True
     linked_user.admin_order_field = 'user'
 
