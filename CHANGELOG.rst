@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-1.3.1 (unreleased)
+1.3.1 (2018-07-12)
 -------------------
 
 * Fixed compatibility with Django >= 1.11 on old-style classes.
