@@ -1,16 +1,16 @@
-##########
-Aldryn SSO
-##########
+############################################
+Single Sign on for Divio (f.k.a. Aldryn SSO)
+############################################
 
 ======================
 Installation & Updates
 ======================
 
 *********************
-Aldryn Platform Users
+Divio Platform Users
 *********************
 
-Nothing to do. ``aldryn-sso`` is part of the Aldryn Platform.
+Nothing to do. ``aldryn-sso`` is part of the Divio Platform.
 
 
 ============
