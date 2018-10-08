@@ -1,38 +1,32 @@
 {% load i18n %}
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div  class="form-group">
-            <h2>{% trans "Local Development Login" %}</h2>
-        </div>
-        <form action="{% url 'aldryn_sso_localdev_login' %}" method="post">
-            {% csrf_token %}
-            {{ form.non_field_errors }}
-            {% with field=form.user %}
-            <div role="form" class="form-group">
-                <a href="{% url 'aldryn_localdev_create_user' %}" class="pull-right link-marketing">
-                    {% trans "Add user" %}
-                </a>
-                <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}:</label>
-                <select class="select-sm form-control" name="user">
-                    {% for value, name in form.user.field.choices %}
-                        {% if forloop.counter0 != 1 %}
-                            <option value="{{ value }}">{{ name }}</option>
-                        {%  else %}
-                            <option value="{{ value }}" selected>{{ name }}</option>
-                        {%  endif %}
-                    {% endfor %}
-                </select>
-                <div class="spacer"></div>
-                {% if field.errors %}
-                    {% for error in field.errors %}
-                        <span class="text-danger">{{ error }}</span>
-                    {% endfor %}
-                {% endif %}
-            </div>
-            {% endwith %}
-            <input type="hidden" name="next" value="{{ next }}" />
-            <input class="btn btn-marketing" type="submit" value="{% trans 'Sign in' %}">
-            <div class="spacer"></div>
-        </form>
-    </div>
-</div>
+  <form action="{% url 'aldryn_sso_localdev_login' %}" method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {% with field=form.user %}
+      <div role="form" class="form-group text-center">
+          <label class="login-box-title" for="{{ field.id_for_label }}">{% trans "Local development login" %}</label>
+          <select class="select-sm form-control" name="user">
+              {% for value, name in form.user.field.choices %}
+                  {% if forloop.counter0 != 1 %}
+                      <option value="{{ value }}">{{ name }}</option>
+                  {%  else %}
+                      <option value="{{ value }}" selected>{{ name }}</option>
+                  {%  endif %}
+              {% endfor %}
+          </select>
+          <div class="spacer"></div>
+          {% if field.errors %}
+              {% for error in field.errors %}
+                  <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+          {% endif %}
+      </div>
+      {% endwith %}
+      <div class="form-group">
+        <input type="hidden" name="next" value="{{ next }}" />
+        <input class="btn btn-primary btn-block mt-1" type="submit" value="{% trans 'Log in' %}">
+        <a href="{% url 'aldryn_localdev_create_user' %}" class="btn btn-link btn-block">
+                  {% trans "Add user" %}
+        </a>
+      </div>
+  </form>

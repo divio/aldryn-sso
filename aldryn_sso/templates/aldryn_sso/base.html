@@ -10,13 +10,30 @@
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>{% block page_title %}{% endblock page_title %}</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <link rel="shortcut icon" href="{% static 'aldryn_sso/img/favicon.ico' %}">
-        <link rel="apple-touch-icon" href="{% static 'aldryn_sso/img/apple-touch-icon.png' %}">
         <link rel="stylesheet" href="{% static 'aldryn_sso/css/aldryn-sso/base.css' %}">
         <link rel="stylesheet" href="{% static 'aldryn_sso/css/sso.css' %}">
     </head>
-    <body class="container">
-        {% block content %}
-        {% endblock content %}
+    <div class="page-wrap">
+      <div class="content">
+        <div class="container pt-5">
+            <div class="d-flex flex-column align-items-center">
+            <img height="24" class="mb-4" src="{% static 'aldryn_sso/img/logos/divio-blue.svg' %}" alt="{{ site_settings.site.name }}" />
+            <div class="login-box">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {% block panel_body %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+            <div class="login-after">
+                {% block after %}
+                {% endblock %}
+            </div>
+        </div>
+      </div>
+    </div>
     </body>
 </html>
