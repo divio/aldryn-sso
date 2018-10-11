@@ -19,6 +19,13 @@ IS_AJAX_URLPARAM = '__is_xhr_login'
 
 class QuickerExpirationAuthenticateView(AuthenticateView):
 
+    def options(self, request):
+        response = super(QuickerExpirationAuthenticateView, self).options(request)
+        response['Access-Control-Allow-Origin'] = 'null'
+        response['Access-Control-Allow-Credentials'] = 'true'
+        response['Access-Control-Allow-Headers'] = 'X-Requested-With'
+        return response
+
     def get(self, request):
         response = super(QuickerExpirationAuthenticateView, self).get(request)
         request.session[ALDRYN_USER_SESSION_KEY] = True
