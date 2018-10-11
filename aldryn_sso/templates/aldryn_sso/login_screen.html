@@ -3,47 +3,55 @@
 
 {% block page_title %}{% trans "Log in" %}{% if request.site.name %}{% trans " to " %}{{ request.site.name }} {% endif %}{% endblock page_title %}
 
-{% block panel_body %}
-    <div class="{% if aldryn_sso_enable_auto_sso_login %}hidden{% endif %}">
+{% block panel %}
+<div class="sso-login-screen panel panel-default{% if aldryn_sso_enable_auto_sso_login %}hidden{% endif %}">
+    <div class="panel-body">
         {% if aldryn_sso_enable_localdev %}
             {% with form=aldryn_sso_localdev_login_as_form %}
                 {% include 'aldryn_sso/includes/localdev_login_form.html' %}
             {% endwith %}
         {% endif %}
-        {% if aldryn_sso_enable_login_form or aldryn_sso_enable_sso_login %}
-          {% if aldryn_sso_enable_login_form %}
-              </div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-body">
+    {% if aldryn_sso_enable_login_form or aldryn_sso_enable_sso_login %}
+    {% if aldryn_sso_enable_login_form %}
+        </div>
+</div>
+    <div class="panel">
+        <div class="panel-body">
             {% with form=form|default:aldryn_sso_login_form %}
-              {% include 'aldryn_sso/includes/login_form.html' %}
+                {% include 'aldryn_sso/includes/login_form.html' %}
             {% endwith %}
+    {% endif %}
 
-          {% endif %}
-          {% if aldryn_sso_enable_login_form and aldryn_sso_enable_sso_login %}
-              <div class="text-center marketing-strike-through">
-                  <span>{% trans "or" %}</span>
-              </div>
-          {% endif %}
-          {% if aldryn_sso_enable_sso_login %}
-            {% include 'aldryn_sso/includes/sso_login_button.html' %}
-          {% endif %}
+        {% if aldryn_sso_enable_login_form and aldryn_sso_enable_sso_login %}
+            <div class="text-center marketing-strike-through">
+                <span>{% trans "or" %}</span>
+            </div>
         {% endif %}
 
-        {% if not aldryn_sso_enable_localdev and not aldryn_sso_enable_login_form and not aldryn_sso_enable_sso_login %}
-            <div class="alert alert-warning">
-                <div class="alert-body">
-                    <strong>{% trans "Improperly Configured" %}</strong><br>
-                    {% trans "No login methods configured. Please configure at least one method." %}
+        {% if aldryn_sso_enable_sso_login %}
+            {% include 'aldryn_sso/includes/sso_login_button.html' %}
+        {% endif %}
+    {% endif %}
+
+    {% if not aldryn_sso_enable_localdev and not aldryn_sso_enable_login_form and not aldryn_sso_enable_sso_login %}
+        <div class="alert alert-warning">
+            <div class="alert-body">
+                <strong>{% trans "Improperly Configured" %}</strong><br>
+                {% trans "No login methods configured. Please configure at least one method." %}
+            </div>
+        </div>
+    {% endif %}
+
+            {% if aldryn_sso_enable_auto_sso_login %}
+            <div class="sso-login-loader">
+                <div class="content-loading">
+                    <svg class="circular" viewBox="25 25 50 50">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-miterlimit="10"/>
+                    </svg>
                 </div>
             </div>
-        {% endif %}
-        {% if aldryn_sso_enable_auto_sso_login %}
-            {# loader #}
-        {% endif %}
-    </div>
+            {% endif %}
+        </div>
 {% endblock %}
 
 {% block after %}

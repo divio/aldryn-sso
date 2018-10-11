@@ -2,7 +2,7 @@
 {% url 'simple-sso-login' as sso_login_url %}
 <a class="btn btn-primary btn-block"
     href="{{ sso_login_url }}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}">
-    {% trans "Logini in with Divio" %}
+    {% trans "Log in with Divio" %}
 </a>
 
 {% if aldryn_sso_enable_auto_sso_login %}
