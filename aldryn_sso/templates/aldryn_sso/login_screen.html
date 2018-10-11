@@ -5,7 +5,7 @@
 
 {% block panel %}
     {% if aldryn_sso_enable_localdev %}
-        <div class="panel panel-default">
+        <div class="panel panel-default mb-3">
             <div class="panel-body">
                 {% with form=aldryn_sso_localdev_login_as_form %}
                     {% include 'aldryn_sso/includes/localdev_login_form.html' %}
