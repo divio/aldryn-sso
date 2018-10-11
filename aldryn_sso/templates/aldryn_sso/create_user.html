@@ -21,9 +21,13 @@
         {% endwith %}
         {% with field=form.is_superuser %}
             {% block form_field %}
-                {{ field }}
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="id_is_superuser" name="{{ field.name }}" checked>
+                <label class="custom-control-label" for="id_is_superuser">
+                    {{ field.label }}
+                </label>
+            </div>
             {% endblock form_field %}
-            {{ field.label }}
 
             {% if field.errors %}
                 {% for error in field.errors %}
