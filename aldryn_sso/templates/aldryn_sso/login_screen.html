@@ -16,29 +16,25 @@
 
     {% if aldryn_sso_enable_login_form or aldryn_sso_enable_sso_login %}
     <div class="sso-login-screen{% if aldryn_sso_enable_auto_sso_login %} hidden{% endif %}">
-        {% if aldryn_sso_enable_login_form %}
-            <div class="panel">
-                <div class="panel-body">
+        <div class="panel">
+            <div class="panel-body">
+                {% if aldryn_sso_enable_login_form %}
                     {% with form=form|default:aldryn_sso_login_form %}
                         {% include 'aldryn_sso/includes/login_form.html' %}
                     {% endwith %}
-                </div>
-            </div>
-        {% endif %}
+                {% endif %}
 
-        {% if aldryn_sso_enable_login_form and aldryn_sso_enable_sso_login %}
-            <div class="text-center marketing-strike-through">
-                <span>{% trans "or" %}</span>
-            </div>
-        {% endif %}
+                {% if aldryn_sso_enable_login_form and aldryn_sso_enable_sso_login %}
+                    <div class="text-center marketing-strike-through">
+                        <span>{% trans "or" %}</span>
+                    </div>
+                {% endif %}
 
-        {% if aldryn_sso_enable_sso_login %}
-            <div class="panel">
-                <div class="panel-body">
+                {% if aldryn_sso_enable_sso_login %}
                     {% include 'aldryn_sso/includes/sso_login_button.html' %}
-                </div>
+                {% endif %}
             </div>
-        {% endif %}
+        </div>
     </div>
     {% endif %}
 
