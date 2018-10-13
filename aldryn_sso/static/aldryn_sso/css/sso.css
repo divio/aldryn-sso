@@ -1,32 +1,8 @@
-.marketing-heading {
-    padding: 30px 0 25px;
+.marketing-strike-through:before {
+    z-index: 0;
 }
-.strikethrough-block {
-    padding: 30px 0 0;
+
+.marketing-strike-through > span {
+    z-index: 1;
     position: relative;
-}
-.strikethrough-block hr {
-    margin: 0;
-}
-.line-text {
-    position: relative;
-    top: -10px;
-    font-weight: 400;
-    padding: 0 20px;
-    background-color: white;
-}
-.sso-button {
-    font-size: 14px;
-    text-transform: uppercase;
-}
-.content-loading .sso-logo {
-    margin: 0 auto;
-    width: 100px;
-    height: 100px;
-    position: relative;
-    top: -180px;
-    left: 1px;
-    animation: flipPulse 4s infinite linear;
-    background-position: 0 0;
-    background-repeat: no-repeat;
 }

@@ -1,8 +1,8 @@
 {% load i18n admin_static %}
 {% url 'simple-sso-login' as sso_login_url %}
-<a class="btn btn-marketing with-brand-icon btn-block"
+<a class="btn btn-primary btn-block"
     href="{{ sso_login_url }}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}">
-    {% trans "Sign in with Divio Account" %}
+    {% trans "Log in with Divio" %}
 </a>
 
 {% if aldryn_sso_enable_auto_sso_login %}

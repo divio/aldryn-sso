@@ -1,18 +1,14 @@
 {% extends "aldryn_sso/base.html" %}
 {% load i18n admin_static %}
 
-{% block page_title %}{% if request.site.name %}{{ request.site.name }} {% endif %}Sign in{% endblock page_title %}
+{% block page_title %}{% trans "Log in" %}{% if request.site.name %}{% trans " to " %}{{ request.site.name }} {% endif %}{% endblock page_title %}
 
-{% block content %}
-    <div class="container">
-        <div class="marketing-heading text-center">
-            <h1>Sign in to {% if request.site.name %}<strong>{{ request.site.name }}</strong>{% else %}your website{% endif %}</h1>
-        </div>
-        <div class="spacer-lg"></div>
-        <div class="row">
-            <div class="col-md-12 col-md-offset-6 col-sm-16 col-sm-offset-4">
+{% block panel_body %}
+        <h2 class="login-box-title">Log in to {% if request.site.name %}{{ request.site.name }}{% else %}your website{% endif %}</h2>
+
+        <div class="alert mb-0">
+            <div class="alert-body">
                 This site requires (basic auth) authorization to view. Please refresh your browser to see the login prompt again.
             </div>
         </div>
-    </div>
 {% endblock %}

@@ -1,53 +1,49 @@
 {% extends "aldryn_sso/base.html" %}
 {% load i18n %}
 
-{% block page_title %}Create user{% endblock page_title %}
+{% block page_title %}{% trans "Create user" %} {% if request.site.name %}{% trans "for " %}{{ request.site.name }}{% endif %}{% endblock page_title %}
 
-{% block content %}
-    <div class="marketing-heading text-center">
-        <h1>{% trans "Create user" %}</h1>
-    </div>
-    <div class="col-xs-24 col-sm-offset-6 col-sm-12">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div  class="form-group">
-                    {% if request.site.name %}<h2 class="project-title">{{ request.site.name }}</h2>{% endif %}
-                </div>
-                <form action="." method="post">
-                    {% csrf_token %}
-                    {{ form.non_field_errors }}
-                    {% with field=form.username %}
-                    <div class="form-group form-required{% if field.errors %} has-error{% endif %}">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}<abbr title="Required field">*</abbr></label>
-                        {{ field }}
-                        {% if field.errors %}
-                            <div class="spacer"></div>
-                            {% for error in field.errors %}
-                                <span class="text-danger">{{ error }}</span>
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                    {% endwith %}
-                    {% with field=form.is_superuser %}
-                    <div class="checkbox {% if field.errors %} has-error{% endif %}">
-                        <label for="{{ field.auto_id }}">
-                            {% block form_field %}
-                                {{ field }}
-                            {% endblock form_field %}
-                            {{ field.label }}
-                        </label>
-                        {% if field.errors %}
-                            {% for error in field.errors %}
-                                <span class="text-danger">{{ error }}</span>
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                    {% endwith %}
-                    <input type="hidden" name="next" value="{{ next }}" />
-                    <input class="btn btn-marketing" type="submit" value="{% trans "Create" %}">
-                </form>
-                <br />
-            </div>
+
+{% block panel_body %}
+    <h2 class="login-box-title">{% trans "Add local user" %}</h2>
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% with field=form.username %}
+        <div class="form-group form-required{% if field.errors %} has-error{% endif %}">
+            {{ field }}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
         </div>
-    </div>
-{% endblock content %}
+        {% endwith %}
+        {% with field=form.is_superuser %}
+            {% block form_field %}
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="id_is_superuser" name="{{ field.name }}" checked>
+                <label class="custom-control-label" for="id_is_superuser">
+                    {{ field.label }}
+                </label>
+            </div>
+            {% endblock form_field %}
+
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <input type="hidden" name="next" value="{{ next }}" />
+        <input class="btn btn-primary btn-block mt-2" type="submit" value="{% trans "Add" %}">
+        <a class="btn btn-link btn-block" href="javascript:window.history.back()">Cancel</a>
+    </form>
+{% endblock %}
+
+{% comment %}
+  {# TODO: Might be useful to show to the user (currently only in page title), but hard to assess/design for how big the title will be #}
+  {% if request.site.name %}{{ request.site.name }}{% endif %}
+{% endcomment %}
+
+
