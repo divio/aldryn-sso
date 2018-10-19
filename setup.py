@@ -15,6 +15,7 @@ setup(
     install_requires=(
         'aldryn-addons',
         'django-simple-sso>=0.13.0',
+        'itsdangerous<1',  # Until django-simple-sso is upgraded
         'furl',
     ),
     include_package_data=True,
