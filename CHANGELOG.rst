@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.4.3 (2018-10-24)
+------------------
+
+* Fixed a bug with ManifestGZippedStaticFilesStorage
+
+
 1.4.3 (2018-10-19)
 ------------------
 
