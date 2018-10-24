@@ -1,11 +1,17 @@
 CHANGELOG
 =========
 
-1.4.3 (2018-10-24)
+1.4.5 (2018-10-25)
+------------------
+
+* Fixed a bug for new user creation on django<1.11
+
+
+1.4.4 (2018-10-24)
 ------------------
 
 * Fixed a bug with ManifestGZippedStaticFilesStorage
-* Fixed a bug for new user creation on django<1.11
+
 
 1.4.3 (2018-10-19)
 ------------------
