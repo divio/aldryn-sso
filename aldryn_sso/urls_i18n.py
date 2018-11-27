@@ -28,7 +28,7 @@ urlpatterns += [
         ),
         url(
             r'^logout/$',
-            auth_views.logout,
+            auth_views.LogoutView.as_view(),
             name='aldryn_sso_logout',
         )
     ]))
