@@ -50,7 +50,7 @@ def get_redirect_url(request, fallback=None):
 
     # Ensure the user-originating redirection url is safe.
 
-    if not is_safe_url(url=redirect_to, host=request.get_host()):
+    if not is_safe_url(url=redirect_to, allowed_hosts=request.get_host()):
         redirect_to = None
 
     if not redirect_to and fallback:
@@ -106,7 +106,7 @@ def login(request, **kwargs):
     extra_context.update(get_shared_context())
     kwargs['extra_context'] = extra_context
     if request.method == 'POST':
-        return django.contrib.auth.views.login(request, **kwargs)
+        return django.contrib.auth.views.LoginView.as_view(**kwargs)(request, **kwargs)
     next_url = get_redirect_url(
         request,
         fallback=resolve_url(settings.LOGIN_REDIRECT_URL),
@@ -128,4 +128,4 @@ def login(request, **kwargs):
             urlencode(dict(next=next_url)),
         )
         return HttpResponseRedirect(sso_url)
-    return django.contrib.auth.views.login(request, **kwargs)
+    return django.contrib.auth.views.LoginView.as_view(**kwargs)(request, **kwargs)

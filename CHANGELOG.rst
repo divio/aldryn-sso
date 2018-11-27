@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.5.0 (unreleased)
+------------------
+
+* Removed support for Django < 1.11
+
+
 1.4.5 (2018-10-25)
 ------------------
 
