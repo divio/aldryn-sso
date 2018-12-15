@@ -23,7 +23,12 @@ class Form(forms.BaseForm):
 
         env = partial(djsenv, settings=settings)
 
-        MIDDLEWARE = settings['MIDDLEWARE']
+        if settings.get('MIDDLEWARE'):
+            # Django>=1.10
+            MIDDLEWARE = settings['MIDDLEWARE']
+        else:
+            # Django<1.10
+            MIDDLEWARE = settings['MIDDLEWARE_CLASSES']
 
         settings['ALDRYN_SSO_HIDE_USER_MANAGEMENT'] = data['hide_user_management']
 
