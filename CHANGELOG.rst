@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-1.5.1 (unreleased)
+1.5.1 (2018-12-15)
 ------------------
 
 * Fixed a bug with middleware for Django 1.11
