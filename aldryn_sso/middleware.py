@@ -45,7 +45,7 @@ class BaseAccessControlMiddleware(MiddlewareMixin):
             return path
         # strip the language prefix by getting the length of the language
         # then slice the path
-        return "/" + "/".join(path.split("/")[2:])
+        return '/' + '/'.join(path.split('/')[2:])
 
     def can_skip_check(self, request):
         if getattr(request, '_login_exempt', False):
