@@ -82,6 +82,6 @@ def admin_login_view(request, extra_context=None):
     return original_admin_login_view(request, extra_context=extra_context)
 
 
-if settings['ALDRYN_SSO_OVERIDE_ADMIN_LOGIN_VIEW']
+if settings['ALDRYN_SSO_OVERIDE_ADMIN_LOGIN_VIEW']:
     # Force the default admin login view to use the default django login view.
     admin.site.login = admin_login_view

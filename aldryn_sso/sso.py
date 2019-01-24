@@ -86,7 +86,7 @@ class CloudUserClient(Client):
     def _create_user(self, username, email):
         username = self._get_free_username(username)
         email_field = getattr(User, 'EMAIL_FIELD', 'email')
-        return User.objects.create(**{User.USERNAME_FIELD: username, email_field:email})
+        return User.objects.create(**{User.USERNAME_FIELD: username, email_field: email})
 
     def build_user(self, user_data):
         extra_data = user_data.pop('extra_data')

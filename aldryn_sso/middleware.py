@@ -25,7 +25,7 @@ except ImportError:
 logger = logging.getLogger('aldryn-sso')
 
 if sys.version_info < (3,):
-    cast_to_str = unicode
+    cast_to_str = unicode  # noqa
 else:
     cast_to_str = str
 
