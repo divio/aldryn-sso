@@ -52,7 +52,7 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
     linked_user.admin_order_field = 'user'
 
 
-if settings.ALDRYN_SSO_HIDE_USER_MANAGEMENT:
+if settings['ALDRYN_SSO_HIDE_USER_MANAGEMENT']:
     try:
         admin.site.unregister(User)
     except NotRegistered:
