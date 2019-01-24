@@ -51,8 +51,7 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
     linked_user.allow_tags = True
     linked_user.admin_order_field = 'user'
 
-
-if settings['ALDRYN_SSO_HIDE_USER_MANAGEMENT']:
+if getattr(settings, 'ALDRYN_SSO_HIDE_USER_MANAGEMENT', False):
     try:
         admin.site.unregister(User)
     except NotRegistered:
@@ -82,6 +81,6 @@ def admin_login_view(request, extra_context=None):
     return original_admin_login_view(request, extra_context=extra_context)
 
 
-if settings['ALDRYN_SSO_OVERIDE_ADMIN_LOGIN_VIEW']:
+if getattr(settings, 'ALDRYN_SSO_OVERIDE_ADMIN_LOGIN_VIEW', False):
     # Force the default admin login view to use the default django login view.
     admin.site.login = admin_login_view
