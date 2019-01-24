@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from django.conf import settings
+
 import django.contrib.auth
 import django.contrib.auth.views
+from django.conf import settings
 from django.http import HttpResponseRedirect
-from django.shortcuts import resolve_url, render
+from django.shortcuts import render, resolve_url
 from django.utils.http import is_safe_url, urlencode
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
@@ -13,7 +14,7 @@ from django.views.generic import CreateView
 
 from simple_sso.compat import reverse, user_is_authenticated
 
-from .forms import CreateUserForm, LoginAsForm, AuthenticationForm
+from .forms import AuthenticationForm, CreateUserForm, LoginAsForm
 
 
 def get_shared_context():

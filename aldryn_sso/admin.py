@@ -2,9 +2,9 @@
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.sites import NotRegistered
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
-from django.contrib.auth import get_user_model
 from django.template.response import TemplateResponse
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
@@ -12,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from simple_sso.compat import reverse
 
 from .models import AldrynCloudUser
+
 
 User = get_user_model()
 

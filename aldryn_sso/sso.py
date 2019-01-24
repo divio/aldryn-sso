@@ -4,12 +4,13 @@ import json
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
-from furl import furl
 
+from furl import furl
 from simple_sso.compat import user_is_authenticated
-from simple_sso.sso_client.client import Client, AuthenticateView, LoginView
+from simple_sso.sso_client.client import AuthenticateView, Client, LoginView
 
 from .models import AldrynCloudUser
+
 
 User = get_user_model()
 

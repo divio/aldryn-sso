@@ -2,10 +2,10 @@
 """
 Access Control Middleware
 """
+import base64
 import logging
 import re
 import sys
-import base64
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -14,6 +14,7 @@ from django.utils.http import urlencode
 from django.utils.translation import get_language_from_path
 
 from simple_sso.compat import NoReverseMatch, reverse, user_is_authenticated
+
 
 try:
     from django.utils.deprecation import MiddlewareMixin
