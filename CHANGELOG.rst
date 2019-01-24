@@ -2,6 +2,14 @@
 Changelog
 =========
 
+
+1.5.2 (unreleased)
+==================
+
+* Added test matrix
+* Adapted code base to align with other supported addons
+
+
 1.5.1 (2018-12-15)
 ==================
 
