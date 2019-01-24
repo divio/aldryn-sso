@@ -51,6 +51,7 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
     linked_user.allow_tags = True
     linked_user.admin_order_field = 'user'
 
+
 if getattr(settings, 'ALDRYN_SSO_HIDE_USER_MANAGEMENT', False):
     try:
         admin.site.unregister(User)
