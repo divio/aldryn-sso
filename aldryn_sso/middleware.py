@@ -2,10 +2,10 @@
 """
 Access Control Middleware
 """
+import base64
 import logging
 import re
 import sys
-import base64
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -14,6 +14,7 @@ from django.utils.http import urlencode
 from django.utils.translation import get_language_from_path
 
 from simple_sso.compat import NoReverseMatch, reverse, user_is_authenticated
+
 
 try:
     from django.utils.deprecation import MiddlewareMixin
@@ -24,7 +25,7 @@ except ImportError:
 logger = logging.getLogger('aldryn-sso')
 
 if sys.version_info < (3,):
-    cast_to_str = unicode
+    cast_to_str = unicode  # noqa
 else:
     cast_to_str = str
 
@@ -45,7 +46,7 @@ class BaseAccessControlMiddleware(MiddlewareMixin):
             return path
         # strip the language prefix by getting the length of the language
         # then slice the path
-        return "/" + "/".join(path.split("/")[2:])
+        return '/' + '/'.join(path.split('/')[2:])
 
     def can_skip_check(self, request):
         if getattr(request, '_login_exempt', False):

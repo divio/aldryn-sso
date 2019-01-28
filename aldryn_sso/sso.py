@@ -4,12 +4,13 @@ import json
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
-from furl import furl
 
+from furl import furl
 from simple_sso.compat import user_is_authenticated
-from simple_sso.sso_client.client import Client, AuthenticateView, LoginView
+from simple_sso.sso_client.client import AuthenticateView, Client, LoginView
 
 from .models import AldrynCloudUser
+
 
 User = get_user_model()
 
@@ -85,7 +86,7 @@ class CloudUserClient(Client):
     def _create_user(self, username, email):
         username = self._get_free_username(username)
         email_field = getattr(User, 'EMAIL_FIELD', 'email')
-        return User.objects.create(**{User.USERNAME_FIELD: username, email_field:email})
+        return User.objects.create(**{User.USERNAME_FIELD: username, email_field: email})
 
     def build_user(self, user_data):
         extra_data = user_data.pop('extra_data')

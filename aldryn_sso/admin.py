@@ -2,9 +2,9 @@
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.sites import NotRegistered
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
-from django.contrib.auth import get_user_model
 from django.template.response import TemplateResponse
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
@@ -12,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from simple_sso.compat import reverse
 
 from .models import AldrynCloudUser
+
 
 User = get_user_model()
 
@@ -51,7 +52,7 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
     linked_user.admin_order_field = 'user'
 
 
-if settings.ALDRYN_SSO_HIDE_USER_MANAGEMENT:
+if getattr(settings, 'ALDRYN_SSO_HIDE_USER_MANAGEMENT', False):
     try:
         admin.site.unregister(User)
     except NotRegistered:
@@ -81,6 +82,6 @@ def admin_login_view(request, extra_context=None):
     return original_admin_login_view(request, extra_context=extra_context)
 
 
-if settings.ALDRYN_SSO_OVERIDE_ADMIN_LOGIN_VIEW:
+if getattr(settings, 'ALDRYN_SSO_OVERIDE_ADMIN_LOGIN_VIEW', False):
     # Force the default admin login view to use the default django login view.
     admin.site.login = admin_login_view

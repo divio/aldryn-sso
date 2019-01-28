@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-02 10:28+0100\n"
+"POT-Creation-Date: 2019-01-24 15:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,105 +17,110 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin.py:41 models.py:23
+#: aldryn_sso/admin.py:49 aldryn_sso/models.py:24
 msgid "User"
 msgstr ""
 
-#: apps.py:8
+#: aldryn_sso/apps.py:8
 msgid "Aldryn SSO"
 msgstr ""
 
-#: forms.py:59
+#: aldryn_sso/forms.py:71
 #, python-format
 msgid "Unable to login as %(username)s"
 msgstr ""
 
-#: forms.py:69
+#: aldryn_sso/forms.py:81
 msgid ""
 "Your Divio Account credentials will not work here, press the \"Sign in with "
 "Divio Account\" button instead."
 msgstr ""
 
-#: models.py:18
+#: aldryn_sso/models.py:19
 msgid "Cloud ID"
 msgstr ""
 
-#: models.py:33
+#: aldryn_sso/models.py:35
 msgid "Aldryn SSO user"
 msgstr ""
 
-#: models.py:34
+#: aldryn_sso/models.py:36
 msgid "Aldryn SSO users"
 msgstr ""
 
-#: templates/aldryn_sso/admin_non_staff.html:4
+#: aldryn_sso/templates/aldryn_sso/admin_non_staff.html:4
 msgid "Home"
 msgstr ""
 
-#: templates/aldryn_sso/admin_non_staff.html:8
+#: aldryn_sso/templates/aldryn_sso/admin_non_staff.html:8
 msgid "Only staff users can access the admin area."
 msgstr ""
 
-#: templates/aldryn_sso/admin_non_staff.html:9
+#: aldryn_sso/templates/aldryn_sso/admin_non_staff.html:9
 msgid "You are logged in as:"
 msgstr ""
 
-#: templates/aldryn_sso/admin_non_staff.html:10
+#: aldryn_sso/templates/aldryn_sso/admin_non_staff.html:10
 msgid "Log out"
 msgstr ""
 
-#: templates/aldryn_sso/admin_non_staff.html:11
+#: aldryn_sso/templates/aldryn_sso/admin_non_staff.html:11
 msgid "View site"
 msgstr ""
 
-#: templates/aldryn_sso/create_user.html:8
+#: aldryn_sso/templates/aldryn_sso/basicauth_auth_required.html:4
+#: aldryn_sso/templates/aldryn_sso/includes/localdev_login_form.html:27
+#: aldryn_sso/templates/aldryn_sso/includes/login_form.html:52
+#: aldryn_sso/templates/aldryn_sso/login_screen.html:4
+#: aldryn_sso/templates/cms/toolbar/items/login.html:13
+msgid "Log in"
+msgstr ""
+
+#: aldryn_sso/templates/aldryn_sso/basicauth_auth_required.html:4
+#: aldryn_sso/templates/aldryn_sso/login_screen.html:4
+msgid " to "
+msgstr ""
+
+#: aldryn_sso/templates/aldryn_sso/create_user.html:4
 msgid "Create user"
 msgstr ""
 
-#: templates/aldryn_sso/create_user.html:47
-msgid "Create"
+#: aldryn_sso/templates/aldryn_sso/create_user.html:4
+msgid "for "
 msgstr ""
 
-#: templates/aldryn_sso/includes/localdev_login_form.html:5
-msgid "Local Development Login"
+#: aldryn_sso/templates/aldryn_sso/create_user.html:8
+msgid "Add local user"
 msgstr ""
 
-#: templates/aldryn_sso/includes/localdev_login_form.html:13
+#: aldryn_sso/templates/aldryn_sso/create_user.html:39
+msgid "Add"
+msgstr ""
+
+#: aldryn_sso/templates/aldryn_sso/includes/localdev_login_form.html:7
+msgid "Local development login"
+msgstr ""
+
+#: aldryn_sso/templates/aldryn_sso/includes/localdev_login_form.html:29
 msgid "Add user"
 msgstr ""
 
-#: templates/aldryn_sso/includes/localdev_login_form.html:34
-#: templates/aldryn_sso/includes/login_form.html:50
-#: templates/aldryn_sso/login_screen.html:4
-#: templates/cms/toolbar/items/login.html:13
-msgid "Sign in"
+#: aldryn_sso/templates/aldryn_sso/includes/login_form.html:7
+msgid "Standard login"
 msgstr ""
 
-#: templates/aldryn_sso/includes/login_form.html:6
-msgid "Login"
+#: aldryn_sso/templates/aldryn_sso/includes/sso_login_button.html:5
+msgid "Log in with Divio"
 msgstr ""
 
-#: templates/aldryn_sso/includes/sso_login_button.html:5
-msgid "Sign in with Divio Account"
+#: aldryn_sso/templates/aldryn_sso/login_screen.html:29
+msgid "or"
 msgstr ""
 
-#: templates/aldryn_sso/login_screen.html:10
-#, python-format
-msgid "Sign in to <strong>%(site_name)s</strong>"
-msgstr ""
-
-#: templates/aldryn_sso/login_screen.html:12
-msgid "Sign in to your website"
-msgstr ""
-
-#: templates/aldryn_sso/login_screen.html:36
-msgid "OR"
-msgstr ""
-
-#: templates/aldryn_sso/login_screen.html:50
+#: aldryn_sso/templates/aldryn_sso/login_screen.html:46
 msgid "Improperly Configured"
 msgstr ""
 
-#: templates/aldryn_sso/login_screen.html:53
+#: aldryn_sso/templates/aldryn_sso/login_screen.html:47
 msgid "No login methods configured. Please configure at least one method."
 msgstr ""

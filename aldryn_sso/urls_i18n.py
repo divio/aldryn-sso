@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 
-from .views import CreateUserView, login_as_user, login
+from .views import CreateUserView, login, login_as_user
 
 
 urlpatterns = []

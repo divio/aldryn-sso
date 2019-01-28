@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+import django.contrib.auth.forms
 from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model, load_backend
-import django.contrib.auth.forms
 from django.contrib.auth.hashers import make_password
 from django.utils.text import capfirst
-from django.utils.translation import ugettext, ugettext_lazy as _
+from django.utils.translation import ugettext
+from django.utils.translation import ugettext_lazy as _
+
 
 UserModel = get_user_model()
 
