@@ -3,9 +3,11 @@ Changelog
 =========
 
 
-1.5.2 (unreleased)
+1.6.0 (unreleased)
 ==================
 
+* Added support for Django 2.2 and django CMS 3.7
+* Removed support for Django 2.0
 * Added test matrix
 * Adapted code base to align with other supported addons
 

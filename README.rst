@@ -58,5 +58,5 @@ You can run tests by executing::
 
 .. |python| image:: https://img.shields.io/badge/python-2.7%20%7C%203.4+-blue.svg
     :target: https://pypi.org/project/aldryn-sso/
-.. |django| image:: https://img.shields.io/badge/django-1.11%20%7C%202.0%20%7C%202.1-blue.svg
+.. |django| image:: https://img.shields.io/badge/django-1.11%20%7C%202.1%20%7C%202.2-blue.svg
     :target: https://www.djangoproject.com/
