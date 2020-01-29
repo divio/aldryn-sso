@@ -6,7 +6,7 @@ Changelog
 1.7.0 (unreleased)
 ==================
 
-* Added support for Django 3.0 alpha 1
+* Added support for Django 3.0
 
 
 1.6.0 (2019-04-09)

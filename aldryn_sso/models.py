@@ -2,7 +2,7 @@
 """
 Login service user with cloud_id
 """
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 
 from django.conf import settings
 from django.db import models
