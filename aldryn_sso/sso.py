@@ -101,12 +101,14 @@ class CloudUserClient(Client):
         try:
             account = AldrynCloudUser.objects.get(cloud_id=cloud_id)
         except AldrynCloudUser.DoesNotExist:
-            user = self._create_user(
-                username=username,
-                email=user_data.pop('email'),
-            )
-
-            AldrynCloudUser.objects.create(cloud_id=cloud_id, user=user)
+            user = User.objects.filter(email=user_data.pop('email')).first()
+            if user:
+                AldrynCloudUser.objects.create(cloud_id=cloud_id, user=user)
+            else:
+                user = self._create_user(
+                    username=username,
+                    email=user_data.pop('email'),
+                )
         else:
             user = account.user
 
