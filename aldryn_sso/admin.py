@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.sites import NotRegistered
@@ -7,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.template.response import TemplateResponse
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from simple_sso.compat import reverse
 
@@ -35,7 +34,7 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return (
-            super(AldrynCloudUserAdmin, self)
+            super()
             .get_queryset(request)
             .select_related('user')
         )

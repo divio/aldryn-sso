@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
 import django.contrib.auth.forms
 from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model, load_backend
 from django.contrib.auth.hashers import make_password
 from django.utils.text import capfirst
-from django.utils.translation import ugettext
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 
 
 UserModel = get_user_model()
@@ -17,7 +16,7 @@ class CreateUserForm(forms.Form):
     is_superuser = forms.BooleanField(initial=True, required=False)
 
     def __init__(self, instance, *args, **kwargs):
-        super(CreateUserForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.username_field = UserModel._meta.get_field(UserModel.USERNAME_FIELD)
         if self.fields['username'].label is None:
             self.fields['username'].label = capfirst(self.username_field.verbose_name)
@@ -68,7 +67,7 @@ class LoginAsForm(forms.Form):
                 break
 
         if not hasattr(user, 'backend'):
-            message = ugettext('Unable to login as %(username)s')
+            message = gettext('Unable to login as %(username)s')
             raise forms.ValidationError(message % {'username': user.username})
         return self.cleaned_data
 
@@ -84,7 +83,7 @@ class AuthenticationForm(django.contrib.auth.forms.AuthenticationForm):
 
     def clean(self):
         try:
-            super(AuthenticationForm, self).clean()
+            super().clean()
         except forms.ValidationError as e:
             if (
                 settings.ALDRYN_SSO_ENABLE_SSO_LOGIN and

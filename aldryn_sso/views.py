@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
-
 import django.contrib.auth
 import django.contrib.auth.views
 from django.conf import settings
@@ -86,7 +83,7 @@ class CreateUserView(CreateView):
     template_name = 'aldryn_sso/create_user.html'
 
     def get_context_data(self, **kwargs):
-        context = super(CreateUserView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context[django.contrib.auth.REDIRECT_FIELD_NAME] = get_next_from_request(self.request)
         return context
 

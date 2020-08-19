@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Access Control Middleware
 """
@@ -10,24 +9,14 @@ import sys
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.utils.deprecation import MiddlewareMixin
 from django.utils.http import urlencode
 from django.utils.translation import get_language_from_path
 
 from simple_sso.compat import NoReverseMatch, reverse, user_is_authenticated
 
 
-try:
-    from django.utils.deprecation import MiddlewareMixin
-except ImportError:
-    class MiddlewareMixin(object): pass  # NOQA
-
-
 logger = logging.getLogger('aldryn-sso')
-
-if sys.version_info < (3,):
-    cast_to_str = unicode  # noqa
-else:
-    cast_to_str = str
 
 
 class BaseAccessControlMiddleware(MiddlewareMixin):
@@ -79,7 +68,7 @@ class BaseAccessControlMiddleware(MiddlewareMixin):
 
         for exclusive_path in self.LOGIN_WHITE_LIST:
             try:
-                exclusive_path = cast_to_str(exclusive_path)
+                exclusive_path = str(exclusive_path)
             except NoReverseMatch:
                 continue
             exclusive_path_without_prefix = self.strip_language(exclusive_path)
