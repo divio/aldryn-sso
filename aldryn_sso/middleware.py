@@ -4,7 +4,6 @@ Access Control Middleware
 import base64
 import logging
 import re
-import sys
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
