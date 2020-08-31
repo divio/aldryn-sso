@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import json
 
 from django.conf import settings
@@ -21,14 +20,14 @@ IS_AJAX_URLPARAM = '__is_xhr_login'
 class QuickerExpirationAuthenticateView(AuthenticateView):
 
     def options(self, request):
-        response = super(QuickerExpirationAuthenticateView, self).options(request)
+        response = super().options(request)
         response['Access-Control-Allow-Origin'] = 'null'
         response['Access-Control-Allow-Credentials'] = 'true'
         response['Access-Control-Allow-Headers'] = 'X-Requested-With'
         return response
 
     def get(self, request):
-        response = super(QuickerExpirationAuthenticateView, self).get(request)
+        response = super().get(request)
         request.session[ALDRYN_USER_SESSION_KEY] = True
         request.session.set_expiry(settings.CLOUD_USER_SESSION_EXPIRATION)
         request.session.save()
@@ -64,7 +63,7 @@ class TryLoginView(LoginView):
     to identify this as an ajax request after all the redirects.
     """
     def get_next(self):
-        next_url = furl(super(TryLoginView, self).get_next())
+        next_url = furl(super().get_next())
         if self.request.is_ajax():
             next_url.args[IS_AJAX_URLPARAM] = 1
         return next_url.url
