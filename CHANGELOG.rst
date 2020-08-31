@@ -3,12 +3,14 @@ Changelog
 =========
 
 
-2.0.0 (unreleased)
+2.0.0 (2020-08-31)
 ==================
 
 * Added support for Django 3.1
 * Dropped support for Python 2.7 and Python 3.4
 * Dropped support for Django < 2.2
+* Prevent the login page from being indexed
+* Fixed an error where emails get duplicated
 
 
 1.7.0 (2020-01-29)
