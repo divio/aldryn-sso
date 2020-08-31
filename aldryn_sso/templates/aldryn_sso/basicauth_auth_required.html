@@ -4,11 +4,11 @@
 {% block page_title %}{% trans "Log in" %}{% if request.site.name %}{% trans " to " %}{{ request.site.name }} {% endif %}{% endblock page_title %}
 
 {% block panel_body %}
-        <h2 class="login-box-title">Log in to {% if request.site.name %}{{ request.site.name }}{% else %}your website{% endif %}</h2>
+    <h2 class="login-box-title">Log in to {% if request.site.name %}{{ request.site.name }}{% else %}your website{% endif %}</h2>
 
-        <div class="alert mb-0">
-            <div class="alert-body">
-                This site requires (basic auth) authorization to view. Please refresh your browser to see the login prompt again.
-            </div>
+    <div class="alert mb-0">
+        <div class="alert-body">
+            This site requires (basic auth) authorization to view. Please refresh your browser to see the login prompt again.
         </div>
+    </div>
 {% endblock %}

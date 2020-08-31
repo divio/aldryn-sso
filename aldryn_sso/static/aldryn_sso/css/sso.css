@@ -1,8 +1,0 @@
-.marketing-strike-through:before {
-    z-index: 0;
-}
-
-.marketing-strike-through > span {
-    z-index: 1;
-    position: relative;
-}
