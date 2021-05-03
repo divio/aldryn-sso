@@ -66,5 +66,5 @@ Aldryn SSO supports a "test link" or "preview mode" feature to bypass the passwo
 
 The links are in the following form: `https://{aldryn_url}/?sharing_token={token}`, where the token is the value of the `SHARING_VIEW_ONLY_SECRET_TOKEN` environment variable.
 
-This environment variable can bet set in the container as part of your build process.  The argument name (`sharing_token`) can also be overridden by setting the `SHARING_VIEW_ONLY_TOKEN_KEY_NAME` environment variable to your desired value.
+This environment variable can bet set in the container as part of your build process. The argument name (`sharing_token`) can also be overridden by setting the `SHARING_VIEW_ONLY_TOKEN_KEY_NAME` environment variable to your desired value.
 
