@@ -62,7 +62,7 @@ You can run tests by executing::
 Sharing Links and Tokens
 ------------------------
 
-Aldryn SSO supports a "test link" or "preview mode" feature to bypass the password protection of test environments. This is normally useful to share a test environment with other people without complicated setups and passwords, a link is enough. 
+Aldryn SSO supports a "test link" or "preview mode" feature to bypass the password protection of test environments. This is normally useful to share a test environment with other people without complicated setups and passwords, a link is enough.
 
 The links are in the following form: `https://{aldryn_url}/?sharing_token={token}`, where the token is the value of the `SHARING_VIEW_ONLY_SECRET_TOKEN` environment variable.
 

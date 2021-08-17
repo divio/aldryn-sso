@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 
 from furl import furl
-from simple_sso.compat import user_is_authenticated
 from simple_sso.sso_client.client import AuthenticateView, Client, LoginView
 
 from .models import AldrynCloudUser
@@ -36,7 +35,7 @@ class QuickerExpirationAuthenticateView(AuthenticateView):
         next_url = self.get_next()
         next_url = furl(next_url)
         is_ajax = bool(next_url.args.pop(IS_AJAX_URLPARAM, False))
-        if is_ajax and user_is_authenticated(request.user):
+        if is_ajax and request.user.is_authenticated:
             # Return JSON response so JS can detect that the login was
             # successful.
             response = HttpResponse(

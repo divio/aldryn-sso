@@ -7,8 +7,7 @@ from django.contrib.auth.models import Group
 from django.template.response import TemplateResponse
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-
-from simple_sso.compat import reverse
+from django.urls import reverse
 
 from .models import AldrynCloudUser
 

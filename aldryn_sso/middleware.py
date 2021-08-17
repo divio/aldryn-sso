@@ -11,8 +11,7 @@ from django.shortcuts import render
 from django.utils.deprecation import MiddlewareMixin
 from django.utils.http import urlencode
 from django.utils.translation import get_language_from_path
-
-from simple_sso.compat import NoReverseMatch, reverse, user_is_authenticated
+from django.urls import NoReverseMatch, reverse
 
 
 logger = logging.getLogger('aldryn-sso')
@@ -101,7 +100,7 @@ class AccessControlMiddleware(BaseAccessControlMiddleware):
     login_template = 'aldryn_sso/login_screen.html'
 
     def process_request(self, request):
-        if user_is_authenticated(request.user):
+        if request.user.is_authenticated:
             # the user is already logged in
             return None
 
