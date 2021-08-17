@@ -3,6 +3,12 @@ Changelog
 =========
 
 
+2.0.1 (2021-08-17)
+==================
+
+* Added support for django-simple-sso >= 1.0 (stop depending on `simple_sso.compat`)
+
+
 2.0.0 (2020-08-31)
 ==================
 
