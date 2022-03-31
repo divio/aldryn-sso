@@ -1,6 +1,7 @@
 # other requirements
 django-app-helper
-tox
 coverage
 isort
 flake8
+# needed for the build to work
+uwsgi

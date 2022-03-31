@@ -7,6 +7,7 @@ Changelog
 ==================
 
 * Added Django 4.0 support
+* Switched to GitHub Actions
 
 
 2.0.1 (2021-08-17)
