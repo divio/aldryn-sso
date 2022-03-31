@@ -42,9 +42,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10"] # latest release minus two
-        django-version: ["2.2", "3.2", "4.0"]
-        cms-version: ["3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        cms-version: ["3.10"]
+        django-version: ["4.0"]
     steps:
       - uses: actions/checkout@v1
       - name: Set up Python ${{ matrix.python-version }}
