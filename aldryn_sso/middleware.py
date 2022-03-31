@@ -8,10 +8,10 @@ import re
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import NoReverseMatch, reverse
 from django.utils.deprecation import MiddlewareMixin
 from django.utils.http import urlencode
 from django.utils.translation import get_language_from_path
-from django.urls import NoReverseMatch, reverse
 
 
 logger = logging.getLogger('aldryn-sso')
