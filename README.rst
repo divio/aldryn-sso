@@ -2,7 +2,7 @@
 Aldryn SSO
 ==========
 
-|build| |coverage|
+|pypi| |build| |coverage|
 
 **Aldryn SSO** adds single-sign-on to Divio Cloud.
 
@@ -49,7 +49,9 @@ You can run tests by executing::
     python setup.py test
 
 
-.. |build| image:: https://github.com/divio/aldryn-django-cms/actions/workflows/default.yml/badge.svg?branch=master
+.. |pypi| image:: https://badge.fury.io/py/aldryn-sso.svg
+    :target: http://badge.fury.io/py/aldryn-sso
+.. |build| image:: https://github.com/divio/aldryn-aldryn-sso/actions/workflows/default.yml/badge.svg?branch=master
     :target: https://github.com/divio/aldryn-sso/actions
 .. |coverage| image:: https://codecov.io/gh/divio/aldryn-sso/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/divio/aldryn-sso
