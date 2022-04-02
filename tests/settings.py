@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 HELPER_SETTINGS = {
     'INSTALLED_APPS': [],
-    'LANGUAGE_CODE': 'en',
+    'SECRET_KEY': 'some-secret',
     'ALLOWED_HOSTS': ['localhost'],
 }
 
