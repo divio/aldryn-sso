@@ -1,12 +1,6 @@
 #!/usr/bin/env python
 HELPER_SETTINGS = {
     'INSTALLED_APPS': [],
-    'CMS_LANGUAGES': {
-        1: [{
-            'code': 'en',
-            'name': 'English',
-        }]
-    },
     'LANGUAGE_CODE': 'en',
     'ALLOWED_HOSTS': ['localhost'],
 }
@@ -14,7 +8,7 @@ HELPER_SETTINGS = {
 
 def run():
     from app_helper import runner
-    runner.cms('aldryn_sso')
+    runner.run('aldryn_sso')
 
 
 if __name__ == '__main__':
