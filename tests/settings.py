@@ -15,7 +15,10 @@ HELPER_SETTINGS = {
 
 def run():
     from app_helper import runner
-    runner.cms('aldryn_sso')
+    try:
+        runner.cms('aldryn_sso')
+    except ImportError:
+        runner.run('aldryn_sso')
 
 
 if __name__ == '__main__':

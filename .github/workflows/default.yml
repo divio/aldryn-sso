@@ -43,14 +43,12 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.7", "3.8", "3.9", "3.10"]
-        django-version: ["2.2", "3.2", "4.0"]
-        cms-version: ["3.10"]
+        requirements: ["dj22_cms37", "dj32_cms310", "dj40"]
         exclude:
-          - django-version: "2.2"
-            python-version: "3.10"
-          - django-version: "4.0"
-            python-version: "3.7"
-            cms-version: "3.10"
+          - python-version: "3.10"
+            requirements: "dj22_cms37"
+          - python-version: "2.7"
+            requirements: dj22_cms37
     steps:
       - uses: actions/checkout@v1
       - name: Set up Python ${{ matrix.python-version }}
@@ -60,9 +58,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install django~=${{ matrix.django-version }}
-          pip install django-cms~=${{ matrix.cms-version }}
-          pip install -r tests/requirements.txt
+          pip install -r tests/requirements/${{ matrix.requirements }}.txt
           python setup.py install
       - name: Run coverage
         run: coverage run setup.py test
