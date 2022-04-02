@@ -61,9 +61,12 @@ class TryLoginView(LoginView):
     Same as normal login view, adds a indicator so that it is still possible
     to identify this as an ajax request after all the redirects.
     """
+    def is_ajax(self):
+        return self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
     def get_next(self):
         next_url = furl(super().get_next())
-        if self.request.is_ajax():
+        if self.is_ajax():
             next_url.args[IS_AJAX_URLPARAM] = 1
         return next_url.url
 
