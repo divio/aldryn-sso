@@ -7,10 +7,10 @@ from django.shortcuts import render, resolve_url
 
 try:
     # Django <3.0
-    from django.utils.http import is_safe_url, urlencode
+    from django.utils.http import is_safe_url as url_has_allowed_host_and_scheme, urlencode
 except ImportError:
     # Django >=3.0
-    from django.utils.http import url_has_allowed_host_and_scheme as is_safe_url, urlencode
+    from django.utils.http import url_has_allowed_host_and_scheme, urlencode
 
 from django.urls import reverse
 from django.views.decorators.cache import never_cache
@@ -55,7 +55,10 @@ def get_redirect_url(request, fallback=None):
 
     # Ensure the user-originating redirection url is safe.
 
-    if not is_safe_url(url=redirect_to, allowed_hosts=request.get_host()):
+    if not url_has_allowed_host_and_scheme(
+        url=redirect_to,
+        allowed_hosts=request.get_host(),
+    ):
         redirect_to = None
 
     if not redirect_to and fallback:
