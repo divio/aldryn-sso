@@ -8,7 +8,6 @@ REQUIREMENTS = [
     'aldryn-addons',
     'django-simple-sso>=0.14.0',
     'furl',
-    'itsdangerous',
 ]
 
 

@@ -1,0 +1,8 @@
+# other requirements
+# django-app-helper not yet Django 4 compatible
+https://github.com/FinalAngel/django-app-helper/archive/refs/heads/develop.zip#egg=django-app-helper
+coverage
+isort
+flake8
+# needed for the build to work
+uwsgi

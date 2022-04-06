@@ -5,9 +5,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.template.response import TemplateResponse
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from django.urls import reverse
 
 from .models import AldrynCloudUser
 

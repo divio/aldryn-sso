@@ -3,7 +3,16 @@ import django.contrib.auth.views
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
-from django.utils.http import is_safe_url, urlencode
+
+
+try:
+    # Django <3.0
+    from django.utils.http import is_safe_url as url_has_allowed_host_and_scheme
+    from django.utils.http import urlencode
+except ImportError:
+    # Django >=3.0
+    from django.utils.http import url_has_allowed_host_and_scheme, urlencode
+
 from django.urls import reverse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
@@ -47,7 +56,10 @@ def get_redirect_url(request, fallback=None):
 
     # Ensure the user-originating redirection url is safe.
 
-    if not is_safe_url(url=redirect_to, allowed_hosts=request.get_host()):
+    if not url_has_allowed_host_and_scheme(
+        url=redirect_to,
+        allowed_hosts=request.get_host(),
+    ):
         redirect_to = None
 
     if not redirect_to and fallback:
