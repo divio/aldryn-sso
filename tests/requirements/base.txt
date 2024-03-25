@@ -3,5 +3,5 @@ django-app-helper
 coverage
 isort
 flake8
-# needed for the build to work
 uwsgi
+packaging

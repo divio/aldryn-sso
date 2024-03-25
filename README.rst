@@ -57,7 +57,7 @@ You can run tests by executing::
     :target: https://codecov.io/gh/divio/aldryn-sso
 
 .. |python| image:: https://img.shields.io/badge/python-3.8+-blue.svg
-    :target: https://pypi.org/project/aldryn-addons/
+    :target: https://pypi.org/project/aldryn-sso/
 .. |django| image:: https://img.shields.io/badge/django-3.2,%204.2,%205.0-blue.svg
     :target: https://www.djangoproject.com/
 
