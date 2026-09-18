@@ -138,10 +138,10 @@ class BasicAuthAccessControlMiddleware(BaseAccessControlMiddleware):
         if sharing_view_response:
             return sharing_view_response
 
-        if 'HTTP_AUTHORIZATION' not in request.META:
+        if 'authorization' not in request.headers:
             return self.unauthed(request)
         else:
-            authentication = request.META['HTTP_AUTHORIZATION']
+            authentication = request.headers['authorization']
             (authmeth, auth) = authentication.split(' ', 1)
             if 'basic' != authmeth.lower():
                 return self.unauthed(request)

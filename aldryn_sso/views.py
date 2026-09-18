@@ -3,17 +3,8 @@ import django.contrib.auth.views
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
-
-
-try:
-    # Django <3.0
-    from django.utils.http import is_safe_url as url_has_allowed_host_and_scheme
-    from django.utils.http import urlencode
-except ImportError:
-    # Django >=3.0
-    from django.utils.http import url_has_allowed_host_and_scheme, urlencode
-
 from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme, urlencode
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters

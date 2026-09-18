@@ -38,16 +38,16 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
             .select_related('user')
         )
 
+    @admin.display(
+        description=_('User'),
+        ordering='user',
+    )
     def linked_user(self, obj):
         html_link = '<a href="{}">{}</a>'.format(
             reverse('admin:auth_user_change', args=[obj.pk]),
             obj.user,
         )
         return mark_safe(html_link)
-    linked_user.short_description = _('User')
-    # This can be removed once support for django < 2.0 is dropped
-    linked_user.allow_tags = True
-    linked_user.admin_order_field = 'user'
 
 
 if getattr(settings, 'ALDRYN_SSO_HIDE_USER_MANAGEMENT', False):
