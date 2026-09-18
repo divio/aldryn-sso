@@ -25,6 +25,5 @@ class MigrationTestCase(TestCase):
         else:
             # the "no changes" exit code is 0
             status_code = '0'
-
         if status_code == '1':
             self.fail('There are missing migrations:\n {}'.format(output.getvalue()))

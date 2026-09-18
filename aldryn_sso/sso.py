@@ -62,7 +62,7 @@ class TryLoginView(LoginView):
     to identify this as an ajax request after all the redirects.
     """
     def is_ajax(self):
-        return self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+        return self.request.headers.get('x-requested-with') == 'XMLHttpRequest'
 
     def get_next(self):
         next_url = furl(super().get_next())

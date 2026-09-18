@@ -46,19 +46,18 @@ You can run tests by executing::
     virtualenv env
     source env/bin/activate
     pip install -r tests/requirements.txt
-    python setup.py test
-
+    python tests/settings.py
 
 .. |pypi| image:: https://badge.fury.io/py/aldryn-sso.svg
     :target: http://badge.fury.io/py/aldryn-sso
-.. |build| image:: https://github.com/divio/aldryn-aldryn-sso/actions/workflows/default.yml/badge.svg?branch=master
+.. |build| image:: https://github.com/divio/aldryn-sso/actions/workflows/default.yml/badge.svg?branch=master
     :target: https://github.com/divio/aldryn-sso/actions
 .. |coverage| image:: https://codecov.io/gh/divio/aldryn-sso/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/divio/aldryn-sso
 
-.. |python| image:: https://img.shields.io/badge/python-3.8+-blue.svg
+.. |python| image:: https://img.shields.io/badge/python-3.10+-blue.svg
     :target: https://pypi.org/project/aldryn-sso/
-.. |django| image:: https://img.shields.io/badge/django-3.2,%204.2,%205.0-blue.svg
+.. |django| image:: https://img.shields.io/badge/django-4.2,%205.2,%206.0,%206.1-blue.svg
     :target: https://www.djangoproject.com/
 
 Sharing Links and Tokens

@@ -2,6 +2,12 @@
 Changelog
 =========
 
+3.0.0 (unreleased)
+==================
+
+* Dropped support for Django < 4.2
+* Confirmed support for Django 5.2, 6.0, and 6.1
+* Confirmed support for Python 3.13 and 3.14
 
 2.2.0 (unreleased)
 ==================
@@ -9,7 +15,6 @@ Changelog
 * Added missing migration
 * Update testing configuration to Django 4.2 and 5.0
 * Update readme to reflect latest Python and Django support
-
 
 2.1.0 (2022-04-06)
 ==================
