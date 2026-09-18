@@ -2,7 +2,7 @@
 Changelog
 =========
 
-3.0.0 (unreleased)
+3.0.0 (2026-09-18)
 ==================
 
 * Dropped support for Django < 4.2
