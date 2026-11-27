@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.template.response import TemplateResponse
 from django.urls import reverse
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from .models import AldrynCloudUser
@@ -43,11 +43,11 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
         ordering='user',
     )
     def linked_user(self, obj):
-        html_link = '<a href="{}">{}</a>'.format(
+        return format_html(
+            '<a href="{}">{}</a>',
             reverse('admin:auth_user_change', args=[obj.user.pk]),
             obj.user,
         )
-        return mark_safe(html_link)
 
 
 if getattr(settings, 'ALDRYN_SSO_HIDE_USER_MANAGEMENT', False):
