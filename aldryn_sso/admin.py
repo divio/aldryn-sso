@@ -43,9 +43,13 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
         ordering='user',
     )
     def linked_user(self, obj):
+        opts = obj.user._meta
         return format_html(
             '<a href="{}">{}</a>',
-            reverse('admin:auth_user_change', args=[obj.user.pk]),
+            reverse(
+                f'admin:{opts.app_label}_{opts.model_name}_change',
+                args=[obj.user.pk],
+            ),
             obj.user,
         )
 
