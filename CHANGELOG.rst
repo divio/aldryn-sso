@@ -2,6 +2,13 @@
 Changelog
 =========
 
+3.0.1 (2026-11-27)
+==================
+
+* Fixed user links in the `AldrynCloudSpace` Django admin list.
+* Fixed the `AldrynCloudSpace` Django admin list crash on project with a custom user
+  model.
+
 3.0.0 (2026-09-18)
 ==================
 
