@@ -44,7 +44,7 @@ class AldrynCloudUserAdmin(admin.ModelAdmin):
     )
     def linked_user(self, obj):
         html_link = '<a href="{}">{}</a>'.format(
-            reverse('admin:auth_user_change', args=[obj.pk]),
+            reverse('admin:auth_user_change', args=[obj.user.pk]),
             obj.user,
         )
         return mark_safe(html_link)
